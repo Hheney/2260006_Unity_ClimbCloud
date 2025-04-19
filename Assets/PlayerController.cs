@@ -8,6 +8,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    float fMaxPosition = 2.1f;  //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최대값 설정 변수
+    float fMinPosition = -2.1f; //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최소값 설정 변수
+    float fPositionX = 0.0f;    //플레이어가 
+
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
     Rigidbody2D m_rigid2DCat = null;
 
@@ -121,6 +125,11 @@ public class PlayerController : MonoBehaviour
             m_animatorCat.speed = 1.0f;
         }
 
+        //Clamp 메소드를 사용하여 x좌표값을 지정한 범위내 값 고정
+        fPositionX = Mathf.Clamp(transform.position.x, fMinPosition, fMaxPosition);
+
+        //고정된 값 내에서 변경
+        transform.position = new Vector3(fPositionX, transform.position.y, transform.position.z);
 
     }
 }
