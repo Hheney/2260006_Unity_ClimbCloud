@@ -4,6 +4,7 @@
  * 1. 스페이스바를 누르면 점프
  * 2. 플레이어를 좌우로 움직이기
  */
+using Unity.Hierarchy;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +18,6 @@ public class PlayerController : MonoBehaviour
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
     Rigidbody2D m_rigid2DCat = null;
 
-   
     float fJumpForce = 680.0f; //플레이어에 가할 힘 값을 저장할 변수
     float fWalkForce = 30.0f; //플레이어 좌, 우로 움직이는 가속도
     float fMaxWalkSpeed = 2.0f; //플레이어의 이동 속도가 지정한 최고 속도
@@ -27,6 +27,19 @@ public class PlayerController : MonoBehaviour
 
     //플레이어 이동 속도에 맞춰 애니메이션 재생 속도를 재생하기 위해 애니메이터 변수 선언
     Animator m_animatorCat = null;
+
+    //강화 점프 기믹구현
+    float fSpacebarPressTime = 0.0f;        //스페이스바를 누른 시간 변수
+    float fMaxSpacebarPressTime = 1.0f;     //가산할 스페이스바 시간의 최대 시간 변수 (기본값 : 1.0f)
+    float fMinReinforceJumpForce = 500.0f;  //플레이어의 최소 점프 가속도
+    float fMaxReinforceJumpForce = 800.0f;  //플레이어의 최대 점프 가속도
+
+    float fReinforceJumpForce = 0.0f;   //플레이어에 가할 힘 값을 저장하는 강화 점프 변수
+    float fReinforceJumpRatio = 0.0f;   //플레이어가 사용할 수 있는 강화 점프의 강도 변수
+
+    bool isSpacebarPress = false;   //스페이스바가 눌러져있는지 여부
+    bool isPlayerOnCloud = false;   //플레이어가 구름위에 있는지 여부
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,11 +66,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        f_PlayerJump();             //플레이어가 'SpaceBar'를 누르면 점프하는 메소드
+        //플레이어 움직임 관련
+        //f_PlayerJump();           //플레이어가 'SpaceBar'를 누르면 점프하는 메소드
+        f_PlayerReinforceJump();    //플레이어가 'SpaceBar'를 길게 누르면 강화 점프를 하는 메소드
         f_PlayerMoveAxisX();        //플레이어를 좌, 우로 이동시키는 메소드
         f_PlayerMoveSpeedLimit();   //플레이어의 이동 속도를 제한하는 메소드
+
+        //플레이어 애니메이션 관련
         f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
         f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
+        
+        //게임 매니저로 이동시켜야 하는 메소드
         f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
         f_PlayerFallingGround();    //플레이어가 땅으로 낙하하면 게임을 다시 시작하는 메소드
     }
@@ -90,10 +109,70 @@ public class PlayerController : MonoBehaviour
          * Spacebar Key가 눌리면 GetKeyDown 메소드 AddForce 메소드를 사용해 위쪽 방향으로 가도록 플레이어에 힘을 가한다.
          * 즉, 플레이어에 힘을 가하려면 Rigidbody2D 컴포넌트가 가진 AddForce 메소드를 사용한다.
          */
+
         if (Input.GetKeyDown(KeyCode.Space) && m_rigid2DCat.linearVelocity.y == 0)
         {
             m_animatorCat.SetTrigger("JumpTrigger");
             m_rigid2DCat.AddForce(transform.up * fJumpForce);
+        }
+    }
+
+    void f_PlayerReinforceJump()
+    {
+        /*
+         * [아이디어] : 스페이스바를 길게 누르면 더 높이 점프 (강화 점프)
+         * [사용할 기법] : 선형 보간법
+         * [정의] : 선형 보간법(線型補間法, linear interpolation)은 끝점의 값이 주어졌을 때 그 사이에 위치한 값을 추정하기 위하여 직선 거리에 따라 선형적으로 계산하는 방법이다.
+         * [보간이란] : 알려진 값 사이에 없는 값을 추정하거나 끼워넣는 것을 의미한다.
+         * Unity에서 제공하는 Mathf.Lerp 메소드는 보간(Interpolation) 기법 중 하나인 선형 보간(Linear Interpolation)을 수행한다.
+         */
+
+        //플레이어의 y축 가속도가 0이면 플레이어가 구름 위에 있는 것으로 판단한다. 
+        //원본 형식과 다르게 추가 if문을 사용한 이유는 후행 if문에서 사용될 예정이므로 사용함
+        if (m_rigid2DCat.linearVelocity.y == 0)
+        {
+            isPlayerOnCloud = true;
+        }
+
+        //플레이어가 구름 위에 있고 스페이스바를 누를 경우, 누른 시간 초기화 및 가산을 위한 bool 변수 전환
+        if(Input.GetKeyDown(KeyCode.Space) && isPlayerOnCloud)
+        {
+            fSpacebarPressTime = 0.0f; //누른 시간 초기화
+
+            isSpacebarPress = true; //스페이스바 참값
+
+            Debug.Log("PressTime : " + fSpacebarPressTime);
+        }
+
+        //스페이스바를 누르고 있으면 누른 시간을 deltaTime 만큼 가산한다.
+        if (Input.GetKey(KeyCode.Space) && isSpacebarPress)
+        {
+            fSpacebarPressTime += Time.deltaTime;
+
+            //최대 스페이스바 시간을 넘지 못하도록 두 매개변수 중 최솟값 반환
+            fSpacebarPressTime = Mathf.Min(fSpacebarPressTime, fMaxSpacebarPressTime);
+
+            /*
+             * Mathf.Clamp 메소드를 사용하여도 같은 결과를 유지하나, 상한값만 제한하면 되기때문에 Mathf.Min을 사용함
+             * Mathf.Clamp(float a, float min, float max)
+             * Mathf.Min(float a, float b)
+            */
+        }
+
+        //스페이스바를 뗀다면 누른 시간에 비례하여 강화된 힘으로 점프한다.
+        if (Input.GetKeyUp(KeyCode.Space) && isSpacebarPress && isPlayerOnCloud)
+        {
+            //강화 점프 비율 = 스페이스바 누른 시간 / 최대 스페이스바 시간
+            fReinforceJumpRatio = fSpacebarPressTime / fMaxSpacebarPressTime;
+
+            //강화 점프 가속도= 선형 보간(최소 힘, 최대 힘, 강화 점프 비율)
+            fReinforceJumpForce = Mathf.Lerp(fMinReinforceJumpForce, fMaxReinforceJumpForce, fReinforceJumpRatio);
+
+            m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
+            m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
+
+            Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
+            isSpacebarPress = false; //스페이스바 거짓값
         }
     }
 
@@ -164,6 +243,7 @@ public class PlayerController : MonoBehaviour
 
     void f_PlayerFallingGround()
     {
+        //-4.5f(최하단) 이하로 플레이어가 낙하시 플레이어 오브젝트 파괴 및 씬 다시 불러오기
         if(transform.position.y < -4.5f)
         {
             Destroy(gameObject);
@@ -173,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("골");
+        Debug.Log("클리어!");
         SceneManager.LoadScene("ClearScene");
     }
 }
