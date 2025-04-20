@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     float fMaxPosition = 2.1f;  //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최대값 설정 변수
     float fMinPosition = -2.1f; //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최소값 설정 변수
-    float fPositionX = 0.0f;    //플레이어가 
+    float fPositionX = 0.0f;    //플레이어의 위치 변수
 
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
     Rigidbody2D m_rigid2DCat = null;
@@ -51,6 +51,37 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        f_PlayerJump();             //플레이어가 'SpaceBar'를 누르면 점프하는 메소드
+        f_PlayerMoveAxisX();        //플레이어를 좌, 우로 이동시키는 메소드
+        f_PlayerMoveSpeedLimit();   //플레이어의 이동 속도를 제한하는 메소드
+        f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
+        f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
+        f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
+    }
+
+    void f_PlayerMoveAxisX()
+    {
+        nLeftRightKeyValue = 0;
+        //움직이지 않을 경우, 전역변수인 nLeftRightKeyValue을 기본값인 0으로 다시 초기화
+        //플레이어는 입력이 없을 경우 움직이지 않게 된다.
+
+        /*
+         * 플레이어 좌, 우 이동
+         * 플레이어 좌우 움직임 키 값 : 오른쪽 화살 키: 1, 왼쪽 화살 키: -1, 움직이지 않을 때: 0
+         */
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            nLeftRightKeyValue = 1;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            nLeftRightKeyValue = -1;
+        }
+    }
+
+    void f_PlayerJump()
+    {
         /*
          * AddForce 메소드 : 오브젝트에 일정한 힘을 주어 이동시키는 것
          * Spacebar Key가 눌리면 GetKeyDown 메소드 AddForce 메소드를 사용해 위쪽 방향으로 가도록 플레이어에 힘을 가한다.
@@ -61,22 +92,10 @@ public class PlayerController : MonoBehaviour
             m_animatorCat.SetTrigger("JumpTrigger");
             m_rigid2DCat.AddForce(transform.up * fJumpForce);
         }
+    }
 
-        /*
-         * 플레이어 좌, 우 이동
-         * 플레이어 좌우 움직임 키 값 : 오른쪽 화살 키: 1, 왼쪽 화살 키: -1, 움직이지 않을 때: 0
-         */
-
-        if(Input.GetKey(KeyCode.RightArrow))
-        {
-            nLeftRightKeyValue = 1;
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            nLeftRightKeyValue = -1;
-        }
-
+    void f_PlayerMoveSpeedLimit()
+    {
         /*
          * 플레이어의 스피드 제한
          * 프레임마다 AddForce 메소드를 사용해 힘을 가하면 플레이어가 계속 가속이 되는 문제점 발생
@@ -89,11 +108,14 @@ public class PlayerController : MonoBehaviour
          */
         fPlayerMoveSpeed = Mathf.Abs(m_rigid2DCat.linearVelocity.x);
 
-        if(fPlayerMoveSpeed < fMaxWalkSpeed)
+        if (fPlayerMoveSpeed < fMaxWalkSpeed)
         {
             m_rigid2DCat.AddForce(transform.right * fWalkForce * nLeftRightKeyValue);
         }
+    }
 
+    void f_SwitchPlayerDirection()
+    {
         /*
          * 움직이는 방향에 따라 플레이어 이미지를 반전
          * 플레이어가 오른쪽으로 움직이면 스트라이트도 오른쪽으로 향하고,
@@ -102,11 +124,14 @@ public class PlayerController : MonoBehaviour
          * 스프라이트의 배율을 바꾸려면 tranform 컴포넌트의 localScale 변수 값을 변경
          * 오른쪽 화살표는 1배, 왼쪽화살표는 X축 방향으로 -1배
          */
-        if(nLeftRightKeyValue !=0)
+        if (nLeftRightKeyValue != 0)
         {
             transform.localScale = new Vector3(nLeftRightKeyValue, 1.0f, 1.0f);
         }
+    }
 
+    void f_SyncAnimationSpeed()
+    {
         /*
          * 애니메이션 재생 속도가 플레이어 이동 속도에 비례하도록 수정
          * 플레이어 이동 속도가 0이면 애니메이션 이동 속도도 0으로 정지하고,
@@ -115,8 +140,7 @@ public class PlayerController : MonoBehaviour
          */
         //m_animatorCat.speed = fPlayerMoveSpeed / 1.0f;
 
-
-        if(m_rigid2DCat.linearVelocity.y == 0)
+        if (m_rigid2DCat.linearVelocity.y == 0)
         {
             m_animatorCat.speed = fPlayerMoveSpeed / 2.0f;
         }
@@ -124,12 +148,14 @@ public class PlayerController : MonoBehaviour
         {
             m_animatorCat.speed = 1.0f;
         }
+    }
 
+    void f_PlayerRangeLimit()
+    {
         //Clamp 메소드를 사용하여 x좌표값을 지정한 범위내 값 고정
         fPositionX = Mathf.Clamp(transform.position.x, fMinPosition, fMaxPosition);
 
         //고정된 값 내에서 변경
         transform.position = new Vector3(fPositionX, transform.position.y, transform.position.z);
-
     }
 }
