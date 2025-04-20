@@ -126,10 +126,9 @@ public class PlayerController : MonoBehaviour
          * Unity에서 제공하는 Mathf.Lerp 메소드는 보간(Interpolation) 기법 중 하나인 선형 보간(Linear Interpolation)을 수행한다.
          */
 
-        /* linearVelocity.y 조건이 모호하여 공중에서 점프할 수 있는 버그가 재현되어 삭제
+        /* 디버그 중 linearVelocity.y 조건이 모호하여 공중에서 점프할 수 있는 경우가 재현되어 삭제
    
         //플레이어의 y축 가속도가 0이면 플레이어가 구름 위에 있는 것으로 판단한다. 
-        //원본 형식과 다르게 추가 if문을 사용한 이유는 후행 if문에서 사용될 예정이므로 사용함
         if (m_rigid2DCat.linearVelocity.y == 0)
         {
             isPlayerOnCloud = true;
@@ -294,6 +293,19 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("플레이어가 착지함");
             isPlayerOnCloud = true; //플레이어 착지 참
+
+            /*
+             * 플레이어가 구름에 충돌한 경우 충돌한 오브젝트에 FallingCloud 스크립트가 존재하는가?
+             * 아래와 같이 작성한 이유는 GetComponent 메소드의 경우 아무것도 없을 경우 반환을 null값으로 리턴함
+             * 따라서 if문에서 null값인지 검사하는 절차로 떨어지는 구름과 고정된 구름을 구분할 수 있게됨.
+             */
+            FallingCloud g_fallingCloud = collision.gameObject.GetComponent<FallingCloud>();
+
+            //컴포넌트가 존재한다면
+            if (g_fallingCloud != null)
+            {
+                g_fallingCloud.f_ActiveFallingCloud(); //FallingCloud의 f_ActiveFallingCloud 메소드(떨어지는 구름 기능) 호출
+            }
         }
     }
 
