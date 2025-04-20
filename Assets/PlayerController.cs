@@ -66,13 +66,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //플레이어 움직임 관련
         //f_PlayerJump();           //플레이어가 'SpaceBar'를 누르면 점프하는 메소드
         f_PlayerReinforceJump();    //플레이어가 'SpaceBar'를 길게 누르면 강화 점프를 하는 메소드
+        f_ReinforceJumpEffect();    //강화 점프를 위해 'SpaceBar'를 길게 누르는 동안 이펙트를 발생시키는 메소드
         f_PlayerMoveAxisX();        //플레이어를 좌, 우로 이동시키는 메소드
         f_PlayerMoveSpeedLimit();   //플레이어의 이동 속도를 제한하는 메소드
 
-        //플레이어 애니메이션 관련
         f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
         f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
         
@@ -173,6 +172,24 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
             isSpacebarPress = false; //스페이스바 거짓값
+        }
+    }
+
+    void f_ReinforceJumpEffect()
+    {
+        //PingPong 메소드를 사용하여 1.0f초에 5번(Time.time * 5) 깜박이는 효과를 구현하기 위한 깜박임 주기 변수
+        //이 메소드 내부에서만 사용되므로 지역변수 구현
+        float fBlinkSpan = Mathf.PingPong(Time.time * 5, 1.0f);
+
+        if(isSpacebarPress)
+        {
+            //흰색과 노란색이 깜박임 주기만큼 변환됨
+            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.yellow, fBlinkSpan);
+        }
+        else
+        {
+            //스페이스바를 누르지 않으면 흰색으로 변경
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
