@@ -4,7 +4,9 @@
  * 1. 스페이스바를 누르면 점프
  * 2. 플레이어를 좌우로 움직이기
  */
+using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
         f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
         f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
         f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
+        f_PlayerFallingGround();    //플레이어가 땅으로 낙하하면 게임을 다시 시작하는 메소드
     }
 
     void f_PlayerMoveAxisX()
@@ -157,5 +160,20 @@ public class PlayerController : MonoBehaviour
 
         //고정된 값 내에서 변경
         transform.position = new Vector3(fPositionX, transform.position.y, transform.position.z);
+    }
+
+    void f_PlayerFallingGround()
+    {
+        if(transform.position.y < -4.5f)
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene("GameScene");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("골");
+        SceneManager.LoadScene("ClearScene");
     }
 }
