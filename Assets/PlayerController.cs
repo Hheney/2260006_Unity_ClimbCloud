@@ -126,15 +126,17 @@ public class PlayerController : MonoBehaviour
          * Unity에서 제공하는 Mathf.Lerp 메소드는 보간(Interpolation) 기법 중 하나인 선형 보간(Linear Interpolation)을 수행한다.
          */
 
+        /* linearVelocity.y 조건이 모호하여 공중에서 점프할 수 있는 버그가 재현되어 삭제
+   
         //플레이어의 y축 가속도가 0이면 플레이어가 구름 위에 있는 것으로 판단한다. 
         //원본 형식과 다르게 추가 if문을 사용한 이유는 후행 if문에서 사용될 예정이므로 사용함
         if (m_rigid2DCat.linearVelocity.y == 0)
         {
             isPlayerOnCloud = true;
-        }
+        }*/
 
         //플레이어가 구름 위에 있고 스페이스바를 누를 경우, 누른 시간 초기화 및 가산을 위한 bool 변수 전환
-        if(Input.GetKeyDown(KeyCode.Space) && isPlayerOnCloud)
+        if (Input.GetKeyDown(KeyCode.Space) && isPlayerOnCloud)
         {
             fSpacebarPressTime = 0.0f; //누른 시간 초기화
 
@@ -272,5 +274,36 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("클리어!");
         SceneManager.LoadScene("ClearScene");
+    }
+
+    /*
+     * Cloud Tag를 인식하여 isPlayerOnCloud를 참, 거짓 값을 변동하도록 해보았으나, 간헐적으로 충돌을 감지하지 못하는 상황이 발생
+     * 해당 조건이 발현될 경우, 플레이어는 구름 위에 있음에도 점프를 다시 하지 못하는 상황이 발생한다.
+     * player 오브젝트 내부 Rigidbody2D 컴포넌트의 Collision Detection이 Discrete로 설정되어 있어 터널링 현상이 발생하는 것을 확인함.
+     * 따라서 해당 설정값을 Discrete → Continuous로 변경하여 충돌 판정을 강화함.
+     * 허나 Continuous를 사용하므로 퍼포먼스 비용이 증가(시스템 자원을 더 소모)하는 문제점을 내포함.
+     * 추후 Raycast 방식을 사용한다면 이 문제를 해결할 수 있을 것으로 생각함.
+     */
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //플레이어의 착지여부 감지
+        //Debug.Log("충돌한 물체: " + collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("Cloud"))
+        {
+            //Debug.Log("플레이어가 착지함");
+            isPlayerOnCloud = true; //플레이어 착지 참
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        //플레이어의 점프여부 감지
+        if (collision.gameObject.CompareTag("Cloud"))
+        {
+            //Debug.Log("플레이어가 점프함");
+            isPlayerOnCloud = false; //플레이어 착지 거짓
+        }
     }
 }

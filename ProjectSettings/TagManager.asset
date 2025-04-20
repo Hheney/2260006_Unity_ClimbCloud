@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Flag
+  - Cloud
   layers:
   - Default
   - TransparentFX
