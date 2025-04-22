@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     float fMaxPosition = 2.1f;  //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최대값 설정 변수
     float fMinPosition = -2.1f; //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최소값 설정 변수
     float fPositionX = 0.0f;    //플레이어의 위치 변수
+    //asdf
 
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
     Rigidbody2D m_rigid2DCat = null;
