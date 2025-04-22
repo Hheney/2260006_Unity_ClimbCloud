@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
     //강화 점프 기믹구현
     float fSpacebarPressTime = 0.0f;        //스페이스바를 누른 시간 변수
     float fMaxSpacebarPressTime = 1.0f;     //가산할 스페이스바 시간의 최대 시간 변수 (기본값 : 1.0f)
-    float fMinReinforceJumpForce = 500.0f;  //플레이어의 최소 점프 가속도
-    float fMaxReinforceJumpForce = 800.0f;  //플레이어의 최대 점프 가속도
+    [SerializeField] float fMinReinforceJumpForce = 500.0f;  //플레이어의 최소 점프 가속도
+    [SerializeField] float fMaxReinforceJumpForce = 800.0f;  //플레이어의 최대 점프 가속도
 
     float fReinforceJumpForce = 0.0f;   //플레이어에 가할 힘 값을 저장하는 강화 점프 변수
     float fReinforceJumpRatio = 0.0f;   //플레이어가 사용할 수 있는 강화 점프의 강도 변수
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     bool isSpacebarPress = false;   //스페이스바가 눌러져있는지 여부
     bool isPlayerOnCloud = false;   //플레이어가 구름위에 있는지 여부
 
+    //FallingCloud m_CloudScript = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
         //GetComponent 메소드를 사용해 Animator 컴포넌트를 구함
         m_animatorCat = GetComponent<Animator>();
+        //m_CloudScript = GetComponent<FallingCloud>();
     }
 
     // Update is called once per frame
@@ -78,6 +80,9 @@ public class PlayerController : MonoBehaviour
         //게임 매니저로 이동시켜야 하는 메소드
         f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
         f_PlayerFallingGround();    //플레이어가 땅으로 낙하하면 게임을 다시 시작하는 메소드
+
+        //m_CloudScript.enabled = false;
+        //m_CloudScript.enabled = true;
     }
 
     void f_PlayerMoveAxisX()
@@ -156,7 +161,7 @@ public class PlayerController : MonoBehaviour
              * Mathf.Clamp 메소드를 사용하여도 같은 결과를 유지하나, 상한값만 제한하면 되기때문에 Mathf.Min을 사용함
              * Mathf.Clamp(float a, float min, float max)
              * Mathf.Min(float a, float b)
-            */
+             */
         }
 
         //스페이스바를 뗀다면 누른 시간에 비례하여 강화된 힘으로 점프한다.
@@ -269,6 +274,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * 플레이어가 깃발에 닿으면 게임이 종료됨
+     * 이 경우 게임씬에서 클리어 씬으로 전환되어야 함
+     * 플레이어가 깃발에 닿았는지는 OnTriggerEnter2D 메소드로 감지함
+     */
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
@@ -281,7 +291,7 @@ public class PlayerController : MonoBehaviour
      * player 오브젝트 내부 Rigidbody2D 컴포넌트의 Collision Detection이 Discrete로 설정되어 있어 터널링 현상이 발생하는 것을 확인함.
      * 따라서 해당 설정값을 Discrete → Continuous로 변경하여 충돌 판정을 강화함.
      * 허나 Continuous를 사용하므로 퍼포먼스 비용이 증가(시스템 자원을 더 소모)하는 문제점을 내포함.
-     * 추후 Raycast 방식을 사용한다면 이 문제를 해결할 수 있을 것으로 생각함.
+     * Raycast 방식을 사용한다면 보완 가능할 것으로 생각됨.
      */
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -291,7 +301,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Cloud"))
         {
-            //Debug.Log("플레이어가 착지함");
+            Debug.Log("플레이어가 착지함");
             isPlayerOnCloud = true; //플레이어 착지 참
 
             /*
@@ -314,7 +324,7 @@ public class PlayerController : MonoBehaviour
         //플레이어의 점프여부 감지
         if (collision.gameObject.CompareTag("Cloud"))
         {
-            //Debug.Log("플레이어가 점프함");
+            Debug.Log("플레이어가 점프함");
             isPlayerOnCloud = false; //플레이어 착지 거짓
         }
     }
