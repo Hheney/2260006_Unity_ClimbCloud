@@ -76,6 +76,9 @@ public class FallingCloud : MonoBehaviour
             StartCoroutine(Fade());
         }
 
+     * Update(), Coroutine() 모두 반복작업을 수행할 수 있으나, Update()는 매 프레임마다 반복되어 프레임마다 실행이 필요한 코드가 아닌경우
+     * 비효율적인 작동을 하게된다. Coroutine은 특정 코드가 특정 시간에 반복되는 것이 필요할 경우 사용되며, 필요하지 않을 경우 코드를 종료할 수 있다.
+
      * 기본적으로 Unity는 yield 문 다음에 프레임에 코루틴을 다시 시작합니다.
      * 열거자는 한 개 이상의 yield 반환문을 포함해야 한다. yield로 반환하는 것은 '일시적으로 CPU 권한을 다른 함수에 위임한다'라는 뜻이다.
      * '위임한다'는 말이 중요한데, 일반적인 함수는 반환하는 즉시 함수를 완전히 끝내는 것인데, 
@@ -88,7 +91,7 @@ public class FallingCloud : MonoBehaviour
 
     IEnumerator IE_FallingRoutine()
     {
-        yield return new WaitForSeconds(fFallDelay);
+        yield return new WaitForSeconds(fFallDelay); //fFallDelay만큼 대기
 
         m_rigid2DCloud.bodyType = RigidbodyType2D.Dynamic;
         m_rigid2DCloud.linearVelocity = new Vector2(0.0f, -fFallSpeed);
@@ -102,10 +105,11 @@ public class FallingCloud : MonoBehaviour
 
         yield return new WaitForSeconds(fAppearDelay);
 
-        m_rigid2DCloud.bodyType = RigidbodyType2D.Kinematic;
-        m_rigid2DCloud.linearVelocity = Vector2.zero;
-        
-        transform.position = vCloudOriginPos;
+        m_rigid2DCloud.bodyType = RigidbodyType2D.Kinematic;    //중력 영향을 받지 않게 변경
+        m_rigid2DCloud.linearVelocity = Vector2.zero;           //추락중이었으므로 변수값 가속도를 0으로 초기화
+
+        transform.position = vCloudOriginPos; //구름의 원래 좌표값으로 구름의 위치를 변경
+
 
         m_spriteRenderer.enabled = true;
         m_collider2d.enabled = true;

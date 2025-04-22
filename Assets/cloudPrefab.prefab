@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3640906942129590585}
   - component: {fileID: 5761319082572234808}
   m_Layer: 0
-  m_Name: cloud
+  m_Name: cloudPrefab
   m_TagString: Cloud
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
