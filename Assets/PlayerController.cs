@@ -7,14 +7,12 @@
 using Unity.Hierarchy;
 using UnityEditor.Timeline;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     float fMaxPosition = 2.1f;  //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최대값 설정 변수
     float fMinPosition = -2.1f; //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최소값 설정 변수
     float fPositionX = 0.0f;    //플레이어의 위치 변수
-    //asdf
 
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
     Rigidbody2D m_rigid2DCat = null;
@@ -41,19 +39,9 @@ public class PlayerController : MonoBehaviour
     bool isSpacebarPress = false;   //스페이스바가 눌러져있는지 여부
     bool isPlayerOnCloud = false;   //플레이어가 구름위에 있는지 여부
 
-    //FallingCloud m_CloudScript = null;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        /*
-         * 디바이스 성능에 따른 실행 결과의 차이 없애기
-         * 어떤 성능의 컴퓨터에서 동작해도 같은 속도로 움직이도록 하는 처리
-         * 스마트폰은 60, 고속의 PC는 300이 될 수 있는 디바이스 성능에 따라 게임 동작에 영향을 미칠 수 있다.
-         * 프레임레이트를 60으로 고정
-         */
-        Application.targetFrameRate = 60;
-
         /*
          * 특정 오브젝트의 컴포넌트에 접근하기 위해서는 GetComponent 함수를 사용
          * Rigidbody2D 컴포넌트를 갖는 메소드를 사용하기 때문에 Start 메소드에서 GetComponent 메소드를 사용해서
@@ -63,7 +51,6 @@ public class PlayerController : MonoBehaviour
 
         //GetComponent 메소드를 사용해 Animator 컴포넌트를 구함
         m_animatorCat = GetComponent<Animator>();
-        //m_CloudScript = GetComponent<FallingCloud>();
     }
 
     // Update is called once per frame
@@ -78,17 +65,13 @@ public class PlayerController : MonoBehaviour
         f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
         f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
         
-        //게임 매니저로 이동시켜야 하는 메소드
         f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
         f_PlayerFallingGround();    //플레이어가 땅으로 낙하하면 게임을 다시 시작하는 메소드
-
-        //m_CloudScript.enabled = false;
-        //m_CloudScript.enabled = true;
     }
 
     void f_PlayerMoveAxisX()
     {
-        nLeftRightKeyValue = 0;
+        //nLeftRightKeyValue = 0;
         //움직이지 않을 경우, 전역변수인 nLeftRightKeyValue을 기본값인 0으로 다시 초기화
         //플레이어는 입력이 없을 경우 움직이지 않게 된다.
 
@@ -100,10 +83,13 @@ public class PlayerController : MonoBehaviour
         {
             nLeftRightKeyValue = 1;
         }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
+        else if(Input.GetKey(KeyCode.LeftArrow))
         {
             nLeftRightKeyValue = -1;
+        }
+        else
+        {
+            nLeftRightKeyValue = 0;
         }
     }
 
@@ -270,8 +256,10 @@ public class PlayerController : MonoBehaviour
         //-4.5f(최하단) 이하로 플레이어가 낙하시 플레이어 오브젝트 파괴 및 씬 다시 불러오기
         if(transform.position.y < -4.5f)
         {
-            Destroy(gameObject);
-            SceneManager.LoadScene("GameScene");
+            //Destroy(gameObject);
+            //SceneManager.LoadScene("GameScene");
+            //GameManager.Instance.f_RestartGame();
+            transform.position = new Vector3(0, 0, 0);  //씬 추가에 따라 플레이어의 기본 위치를 지정해 그곳에서 다시 시작하도록 변경
         }
     }
 
@@ -283,7 +271,9 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
-        SceneManager.LoadScene("ClearScene");
+        //SceneManager.LoadScene("ClearScene");
+
+        GameManager.Instance.f_ClearGame(); 
     }
 
     /*
@@ -302,7 +292,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Cloud"))
         {
-            Debug.Log("플레이어가 착지함");
+            //Debug.Log("플레이어가 착지함");
             isPlayerOnCloud = true; //플레이어 착지 참
 
             /*
@@ -325,8 +315,8 @@ public class PlayerController : MonoBehaviour
         //플레이어의 점프여부 감지
         if (collision.gameObject.CompareTag("Cloud"))
         {
-            Debug.Log("플레이어가 점프함");
+            //Debug.Log("플레이어가 점프함");
             isPlayerOnCloud = false; //플레이어 착지 거짓
-        }
+        }   
     }
 }
