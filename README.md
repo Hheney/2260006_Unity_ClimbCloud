@@ -1,14 +1,14 @@
 ### 🔧 기능 추가 내역
 
 #### 1. 🪂 강화 점프 기능 (Reinforced Jump)
-- 스페이스바를 누르고 있는 시간에 비례하여 점프 높이가 강화되는 시스템 구현
+- [스페이스바를 누르고 있는 시간에 비례하여 점프 높이가 강화되는 시스템 구현]
 - 최소/최대 점프력을 `Mathf.Lerp()`를 통해 선형 보간
 - `Input.GetKeyDown`, `GetKey`, `GetKeyUp`을 조합하여 점프 충전과 발사를 분리
 - 충전 중 시각 피드백으로 스프라이트 컬러가 점차 노란색으로 깜빡이는 효과 추가
 - 바닥 착지를 `Collision Detection = Continuous` + `OnCollisionEnter2D`로 정확하게 감지
 
 #### 2. ☁️ 낙하 구름 기믹 (Falling Cloud Mechanic)
-- 플레이어가 특정 구름에 착지하면 일정 시간 후 낙하
+- [플레이어가 특정 구름에 착지하면 일정 시간 후 낙하]
 - 낙하 후 일정 시간 동안 비활성화 → 이후 원래 위치로 복귀
 - `Rigidbody2D`의 `bodyType`을 `Kinematic ↔ Dynamic`으로 전환하여 자연스러운 낙하 구현
 - `SpriteRenderer.enabled`, `Collider2D.enabled` 조절로 시각/물리적 비활성화
@@ -16,6 +16,7 @@
 - 모든 구름은 `Cloud` 태그로 통일하고, 낙하 구름은 `FallingCloud.cs` 컴포넌트로 구분
 
 #### 3. 🎵 사운드 매니저 기반 배경음악 및 효과음 재생 기능 (SoundManager Audio Playback)
+- [BGM과 SFX를 재생하는 기능 구현]
 - SoundManager를 통해 BGM과 SFX를 통합 관리하는 시스템 구축
 - AudioSource와 AudioClip을 묶은 AudioUnit 클래스를 사용하여 사운드 관리 구조 개선
 - Enum(SoundName) 기반으로 사운드 선택 및 재생, 문자열 오타 가능성 제거
