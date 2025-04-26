@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
             m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
             m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
 
-            SoundManager.Instance.f_PlayJumpSFX(); //점프 효과음 재생
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_Jump, 0.1f); //점프 효과음 10% 볼륨으로 재생
 
             Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
             isSpacebarPress = false; //스페이스바 거짓값
@@ -259,8 +259,10 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < -4.5f)
         {
             Destroy(gameObject);
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.1f); //게임 오버 효과음 10% 볼륨으로 재생
+
             //SceneManager.LoadScene("GameScene");
-            GameManager.Instance.f_RestartGame();
+            GameManager.Instance.f_RestartGame(); //게임 재시작
         }
     }
 
@@ -272,8 +274,9 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
-        //SceneManager.LoadScene("ClearScene");
+        SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
 
+        //SceneManager.LoadScene("ClearScene");
         GameManager.Instance.f_ClearGame();
     }
 
