@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
     //[SerializeField]: private 접근 제한을 유지하며 인스펙터에 노출되어 Unity 편집기로 설정할 수 있음.
     [SerializeField] private AudioSource sourceGameStageBGM = null; //게임 스테이지 배경음악 소스
     [SerializeField] private AudioSource sourceJumpSFX = null;      //점프 효과음 소스
-    
+
     [SerializeField] private AudioClip clipGameStageBGM = null; //게임 스테이지 배경음악 클립
     [SerializeField] private AudioClip clipJumpSFX = null;      //점프 효과음 클립          
 
@@ -104,7 +104,7 @@ public class SoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /// <summary> 게임 스테이지의 배경음악을 반복재생하는 메소드 </summary>
@@ -122,7 +122,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> 게임 스테이지의 배경음악 재생을 중단하는 메소드 </summary>
     public void f_StopGameStageBGM()
     {
-        if(SourceGameStageBGM != null && SourceGameStageBGM.isPlaying)
+        if (SourceGameStageBGM != null && SourceGameStageBGM.isPlaying)
         {
             SourceGameStageBGM.Stop();
         }
@@ -131,7 +131,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> 점프 효과음을 재생하는 메소드 </summary>
     public void f_PlayJumpSFX()
     {
-        if(SourceJumpSFX != null && ClipJumpSFX != null) //소스와 클립이 모두 존재하는 경우(not null)
+        if (SourceJumpSFX != null && ClipJumpSFX != null) //소스와 클립이 모두 존재하는 경우(not null)
         {
             SourceJumpSFX.volume = 0.1f; //볼륨 10%
             SourceJumpSFX.PlayOneShot(ClipJumpSFX); //PlayOneShot 메소드를 이용하여 한 번만 재생

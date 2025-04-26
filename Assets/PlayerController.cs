@@ -163,6 +163,8 @@ public class PlayerController : MonoBehaviour
             m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
             m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
 
+            SoundManager.Instance.f_PlayJumpSFX(); //점프 효과음 재생
+
             Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
             isSpacebarPress = false; //스페이스바 거짓값
         }
