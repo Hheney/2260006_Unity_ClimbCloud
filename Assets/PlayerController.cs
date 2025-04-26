@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
         //플레이어가 구름 위에 있고 스페이스바를 누를 경우, 누른 시간 초기화 및 가산을 위한 bool 변수 전환
         if (Input.GetKeyDown(KeyCode.Space) && isPlayerOnCloud)
-        {
+        {   
             fSpacebarPressTime = 0.0f; //누른 시간 초기화
 
             isSpacebarPress = true; //스페이스바 참값
@@ -176,6 +176,8 @@ public class PlayerController : MonoBehaviour
 
             m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
             m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
+
+            SoundManager.Instance.f_PlayJumpSFX(); //점프 효과음 재생
 
             Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
             isSpacebarPress = false; //스페이스바 거짓값
