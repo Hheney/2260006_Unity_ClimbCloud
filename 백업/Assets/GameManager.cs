@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
          * 프레임레이트를 60으로 고정
          */
         Application.targetFrameRate = 60;
+        SoundManager.Instance.f_PlayGameStageBGM();
     }
 
     // Update is called once per frame
@@ -70,11 +71,13 @@ public class GameManager : MonoBehaviour
     public void f_RestartGame() //게임 재시작
     {
         SceneManager.LoadScene("GameScene");
+        SoundManager.Instance.f_PlayGameStageBGM();
     }
 
     public void f_ClearGame() //게임 클리어 전환
     {
         SceneManager.LoadScene("ClearScene");
+        SoundManager.Instance.f_StopGameStageBGM();
     }
 
     public void f_OpenMainMenu() //메인메뉴 전환

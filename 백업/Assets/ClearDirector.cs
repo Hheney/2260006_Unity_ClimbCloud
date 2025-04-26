@@ -2,6 +2,7 @@
 
 using System.Data.SqlTypes;
 using UnityEngine;
+using UnityEngine.SceneManagement; //씬을 전환하기 위한 씬매니저 임포트
 
 public class ClearDirector : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class ClearDirector : MonoBehaviour
          */
         if (Input.GetMouseButtonDown(0))
         {
-            GameManager.Instance.f_RestartGame();
+            SceneManager.LoadScene("GameScene");
         }
     }
 
