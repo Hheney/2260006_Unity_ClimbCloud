@@ -33,6 +33,7 @@ using UnityEngine;
 public enum SoundName
 {
     //배경음악
+    BGM_Title,      //타이틀 배경음악
     BGM_MainMenu,   //메인메뉴 배경음악
     BGM_StageBGM1,  //스테이지1 배경음악
     BGM_StageBGM2,  //스테이지2 배경음악

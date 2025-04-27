@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
          */
         Application.targetFrameRate = 60;
 
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.2f);
     }
 
     // Update is called once per frame
@@ -75,10 +75,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
     }
 
+    public void f_GameStart() //임시
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
     public void f_OpenMainMenu() //메인메뉴 전환
     {
         //SceneManager.LoadScene("");
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_MainMenu, 0.1f);
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_MainMenu, 0.1f);
     }
 
     public void f_OpenStageSelect()
@@ -88,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     public void f_GameOver()
     {
-
+        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.1f);
     }
 
     public void f_RestartGame() //게임 재시작

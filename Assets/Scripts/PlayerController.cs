@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < -4.5f)
         {
             Destroy(gameObject);
-            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.1f); //게임 오버 효과음 10% 볼륨으로 재생
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
 
             //SceneManager.LoadScene("GameScene");
             GameManager.Instance.f_RestartGame(); //게임 재시작
