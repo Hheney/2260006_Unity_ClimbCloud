@@ -45,14 +45,14 @@ public class CloudGenerator : MonoBehaviour
 
     void f_CreateCloud()
     {
-        gCloudInstance = Instantiate(gCloudPrefab);
+        gCloudInstance = Instantiate(gCloudPrefab); //프리팹을 통한 인스턴스 생성
         
-        fCloudPosRange = Random.Range(fMinXRange, fMaxXRange);
+        fCloudPosRange = Random.Range(fMinXRange, fMaxXRange);  //랜덤 위치 발생
 
-        gCloudInstance.transform.position = new Vector3(fCloudPosRange, fCreateYPos, 0.0f);
-        gCloudInstance.GetComponent<CloudController>().moveSpeed = Random.Range(0.5f, 2.0f);
+        gCloudInstance.transform.position = new Vector3(fCloudPosRange, fCreateYPos, 0.0f);     //랜덤 위치로 이동
+        gCloudInstance.GetComponent<CloudController>().moveSpeed = Random.Range(0.5f, 2.0f);    //이동 속도 랜덤으로 변경
 
-        fRandCloudScale = Random.Range(0.7f, 1.4f);
-        gCloudInstance.transform.localScale = Vector3.one * fRandCloudScale;
+        fRandCloudScale = Random.Range(0.7f, 1.4f); //랜덤 크기 발생
+        gCloudInstance.transform.localScale = Vector3.one * fRandCloudScale; //랜덤 크기로 변경
     }
 }

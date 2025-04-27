@@ -26,6 +26,7 @@
  */
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //Enum"은 "Enumeration"의 약자로, 특정 자료형의 값을 미리 정의된 값들로 제한하여 사용하고자 할 때 사용하는 데이터 타입
@@ -41,7 +42,8 @@ public enum SoundName
     //효과음
     SFX_GameOver,   //게임 오버 효과음
     SFX_GameClear,  //게임 클리어 효과음
-    SFX_Jump        //점프 효과음
+    SFX_Jump,       //점프 효과음
+    SFX_ButtonClick //버튼 클릭 효과음
 }
 //[System.Serializable] : C#의 속성(attribute) / 클래스, 구조체, 필드에 적용가능 / 직렬화를 위해 추가함, 해당 구문을 추가함으로서 Inspector에 표출됨
 //Inspector에서 쉽게 관리 하기위해 통합 AudioUnit 클래스 생성
@@ -84,7 +86,7 @@ public class SoundManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                Debug.Log("GameManager is null.");
+                Debug.Log("SoundManager is null.");
             }
             return _instance;
         }
@@ -176,7 +178,18 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-
+    /// <summary> 모든 BGM을 재생 중지하는 메소드 </summary>
+    public void f_StopAllBGM()
+    {
+        foreach(AudioUnit unit in UnitBGM)
+        {
+            if(unit.AudioSource.isPlaying)
+            {
+                unit.AudioSource.Stop();
+                return;
+            }
+        }
+    }
     /*
      * 직접적인 public 선언은 객체 지향의 철학과 맞지 않기에 get, set 사용하여 접근
      * set은 private set으로 지정하여 읽기전용으로 변경

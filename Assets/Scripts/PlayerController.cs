@@ -274,10 +274,13 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
-        SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
+        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
 
         //SceneManager.LoadScene("ClearScene");
-        GameManager.Instance.f_OpenClearGame();
+        //GameManager.Instance.f_OpenClearGame();
+        SoundManager.Instance.f_StopAllBGM();
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
+        GameManager.Instance.f_OpenTitle(); //임시
     }
 
     /*
