@@ -42,15 +42,29 @@ public enum SoundName
     SFX_GameClear,  //게임 클리어 효과음
     SFX_Jump        //점프 효과음
 }
-
+//[System.Serializable] : C#의 속성(attribute) / 클래스, 구조체, 필드에 적용가능 / 직렬화를 위해 추가함, 해당 구문을 추가함으로서 Inspector에 표출됨
 //Inspector에서 쉽게 관리 하기위해 통합 AudioUnit 클래스 생성
+
 /// <summary> AudioSource와 AudioClip을 하나의 유닛으로 묶은 클래스</summary>
 [System.Serializable]
 public class AudioUnit
 {
-    public SoundName soundName = 0;         //재생할 사운드 이름(Enum으로 지정)
-    public AudioSource audioSource = null;  //소리를 출력하는 AudioSource
-    public AudioClip audioClip = null;      //출력할 오디오 데이터 AudioClip
+    /*
+     * C#에는 C++의 friend 개념이 없기에, 객체지향을 유지한 채로 회피하는 방법을 사용한다.
+     * Unity에서 권장하는 구조인 [SerializeField] private + public getter 방식을 채택함
+     * 따라서 AudioUnit 클래스는 필드는 [SerializeField] private로 숨기고 읽기 전용 public 프로퍼티를 제공함
+     */
+    [SerializeField] private SoundName soundName = 0;         //재생할 사운드 이름(Enum으로 지정)
+    [SerializeField] private AudioSource audioSource = null;  //소리를 출력하는 AudioSource
+    [SerializeField] private AudioClip audioClip = null;      //출력할 오디오 데이터 AudioClip
+
+    /* 읽기 전용(Read-Only) 프로퍼티(외부에서 참조가능 수정은 불가능)
+     * 프로퍼티(Property)는 속성이란 의미.
+     * 프로퍼티를 사용하게 되면, 속성 값을 반환하거나 새 값을 할당할 수 있다.
+     */
+    public SoundName SoundName { get { return soundName; } }
+    public AudioSource AudioSource { get { return audioSource; } }
+    public AudioClip AudioClip { get { return audioClip; } }
 }
 
 /// <summary> 게임 전역에서 사운드를 관리하는 매니저 클래스 </summary>
@@ -121,12 +135,12 @@ public class SoundManager : MonoBehaviour
         //사용된 오디오 갯수만큼 반복한다면 자동화된 검색가능 
         foreach(AudioUnit unit in UnitBGM) //var대신 명확성을 위해 AudioUnit unit형태로 지정함
         {
-            if(unit.soundName == soundName) //매개변수 사운드를 찾으면?
+            if(unit.SoundName == soundName) //매개변수 사운드를 찾으면?
             {
-                unit.audioSource.clip = unit.audioClip; //AudioSource에 Clip 연결
-                unit.audioSource.volume = volume;       //매개변수로 받은 볼륨으로 지정
-                unit.audioSource.loop = true;           //반복 재생 설정
-                unit.audioSource.Play();                //재생 시작
+                unit.AudioSource.clip = unit.AudioClip; //AudioSource에 Clip 연결
+                unit.AudioSource.volume = volume;       //매개변수로 받은 볼륨으로 지정
+                unit.AudioSource.loop = true;           //반복 재생 설정
+                unit.AudioSource.Play();                //재생 시작
                 return; //재생이 시작되었으므로 foreach 루프 종료
             }
         }
@@ -138,10 +152,10 @@ public class SoundManager : MonoBehaviour
     {
         foreach(AudioUnit unit in UnitSFX)
         {
-            if(unit.soundName == soundName)
+            if(unit.SoundName == soundName)
             {
-                unit.audioSource.volume = volume;               //매개변수로 받은 볼륨으로 지정
-                unit.audioSource.PlayOneShot(unit.audioClip);   //PlayOneShot 메소드를 이용하여 1회만 효과음 재생
+                unit.AudioSource.volume = volume;               //매개변수로 받은 볼륨으로 지정
+                unit.AudioSource.PlayOneShot(unit.AudioClip);   //PlayOneShot 메소드를 이용하여 1회만 효과음 재생
                 return; //재생이 시작되었으므로 foreach 루프 종료
             }
         }
@@ -153,9 +167,9 @@ public class SoundManager : MonoBehaviour
     {
         foreach(AudioUnit unit in UnitBGM)
         {
-            if(unit.soundName == soundName && unit.audioSource.isPlaying) //재생중인 사운드 명칭 == 매개변수 사운드 명칭 and 사운드가 재생중
+            if(unit.SoundName == soundName && unit.AudioSource.isPlaying) //재생중인 사운드 명칭 == 매개변수 사운드 명칭 and 사운드가 재생중
             {
-                unit.audioSource.Stop(); //재생중인 배경음악 정지
+                unit.AudioSource.Stop(); //재생중인 배경음악 정지
                 return; //재생 정지되었으므로 foreach 루프 종료
             }
         }
