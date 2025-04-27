@@ -59,7 +59,7 @@ public class FallingCloud : MonoBehaviour
     //PlayerController에서 호출 예정이므로 public 접근제어
     public void f_ActiveFallingCloud()
     {
-        StartCoroutine(IE_FallingRoutine()); //IEnumerator(열거자 인터페이스) 내에 정의된 루틴을 시작함
+        StartCoroutine(Interface_FallingRoutine()); //IEnumerator(열거자 인터페이스) 내에 정의된 루틴을 시작함
     }
 
     /* ---------------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ public class FallingCloud : MonoBehaviour
      * 유니티에서 IEnumerator는 작업을 분할하여 수행하는 메소드이다.
      */
 
-    IEnumerator IE_FallingRoutine()
+    IEnumerator Interface_FallingRoutine()
     {
         yield return new WaitForSeconds(fFallDelay); //fFallDelay만큼 대기
 

@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
         SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
 
         //SceneManager.LoadScene("ClearScene");
-        GameManager.Instance.f_ClearGame();
+        GameManager.Instance.f_OpenClearGame();
     }
 
     /*

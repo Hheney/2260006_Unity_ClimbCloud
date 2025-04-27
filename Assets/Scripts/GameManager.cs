@@ -69,6 +69,28 @@ public class GameManager : MonoBehaviour
      */
 
     //여러 스크립트에서 다중 사용이 예상되어 GameManger에서 메소드화
+
+    public void f_OpenTitle() //타이틀 화면
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void f_OpenMainMenu() //메인메뉴 전환
+    {
+        //SceneManager.LoadScene("");
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_MainMenu, 0.1f);
+    }
+
+    public void f_OpenStageSelect()
+    {
+        //SceneManager.LoadScene("");
+    }
+
+    public void f_GameOver()
+    {
+
+    }
+
     public void f_RestartGame() //게임 재시작
     {
         SceneManager.LoadScene("GameScene");
@@ -77,17 +99,12 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
     }
 
-    public void f_ClearGame() //게임 클리어 전환
+    public void f_OpenClearGame() //게임 클리어 전환
     {
         SceneManager.LoadScene("ClearScene");
 
         SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM1); //스테이지1 배경음악 재생 중지
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
-    }
-
-    public void f_OpenMainMenu() //메인메뉴 전환
-    {
-        //SceneManager.LoadScene("");
     }
 
 }
