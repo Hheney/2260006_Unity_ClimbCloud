@@ -1,4 +1,4 @@
-### 🔧 기능 추가 내역
+### 🔧 기능 구현 내역
 
 #### 1. 🪂 강화 점프 기능 (Reinforced Jump)
 - [스페이스바를 누르고 있는 시간에 비례하여 점프 높이가 강화되는 시스템 구현]
@@ -24,3 +24,21 @@
 - foreach 문에서 명확한 타입 지정(AudioUnit unit)을 통해 코드 가독성 향상
 - 사운드 재생 시 일치하는 사운드를 찾으면 즉시 return하여 불필요한 반복 방지
 - Inspector를 통해 AudioUnit 추가만으로 손쉽게 BGM/SFX 확장 가능
+
+#### 4.🎬 타이틀 화면 및 메인 메뉴 전환 기능 (Title Scene and Menu System)
+- [타이틀 화면과 메인 메뉴를 통한 게임 시작 흐름 구축]
+- TitleScene을 추가하여 게임 시작 전 타이틀 화면 제공
+- TitleScene에서 버튼 클릭 시 GameScene으로 자연스러운 전환 구현
+- TitleUIController 스크립트를 통해 버튼 이벤트 관리
+- SoundManager를 사용하여 타이틀 화면 BGM 재생 및 클릭 효과음 처리
+- TitleScene 초기화 시 BGM 자동 재생, 버튼 클릭 시 BGM 중지 처리
+
+#### 5.🛠️ 전역 매니지 시스템 구조 정립 (Global Manager Initialization System)
+- [ManagersScene을 통한 전역 오브젝트 초기화 체계 구축]
+- ManagersScene(초기화 전용 빈 씬)을 추가하여 매니저 오브젝트 관리
+- SoundManager, GameManager를 ManagersScene에 등록
+- DontDestroyOnLoad()를 통해 씬 전환 시에도 매니저 오브젝트 유지
+- ManagersScene 로딩 후 자동으로 TitleScene 전환 처리
+- GameManager를 통한 일관된 씬 이동 관리(f_RestartGame, f_ClearGame 등)
+- SoundManager를 통한 통합적인 BGM, SFX 관리 체계 강화
+- 씬 전환 시 매니저 중복 생성을 방지하는 싱글톤 패턴 완성
