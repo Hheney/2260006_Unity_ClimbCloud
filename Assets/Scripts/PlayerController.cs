@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < -4.5f)
         {
             Destroy(gameObject);
-            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.1f); //게임 오버 효과음 10% 볼륨으로 재생
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
 
             //SceneManager.LoadScene("GameScene");
             GameManager.Instance.f_RestartGame(); //게임 재시작
@@ -274,10 +274,13 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
-        SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
+        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
 
         //SceneManager.LoadScene("ClearScene");
-        GameManager.Instance.f_OpenClearGame();
+        //GameManager.Instance.f_OpenClearGame();
+        SoundManager.Instance.f_StopAllBGM();
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
+        GameManager.Instance.f_OpenTitle(); //임시
     }
 
     /*
