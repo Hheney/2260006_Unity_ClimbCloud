@@ -11,7 +11,12 @@ public class GameManager : MonoBehaviour
 {
     // singleton pattern: 클래스 하나에 인스턴스가 하나만 생성되는 프래그래밍 패턴
 
+<<<<<<< Updated upstream
     private static GameManager _instance = null; 
+=======
+    private static GameManager _instance = null;
+
+>>>>>>> Stashed changes
 
     public static GameManager Instance
     {
@@ -50,6 +55,15 @@ public class GameManager : MonoBehaviour
          * 프레임레이트를 60으로 고정
          */
         Application.targetFrameRate = 60;
+<<<<<<< Updated upstream
+=======
+
+        GameObject stageClear = GameObject.Find("StageClear");
+
+        
+
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -69,6 +83,7 @@ public class GameManager : MonoBehaviour
     //여러 스크립트에서 다중 사용이 예상되어 GameManger에서 메소드화
     public void f_RestartGame() //게임 재시작
     {
+<<<<<<< Updated upstream
         //SceneManager.LoadScene("GameScene");
         SceneManager.LoadScene("FirstStage");   //스테이지 세분화에 따라 클리어 후 재시작 시 첫 번째 스테이지로 넘어가도록 수정
     }
@@ -77,10 +92,32 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("ClearScene");
     }
+=======
+        SceneManager.LoadScene("GameScene");
+
+        SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM2);
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
+    }
+
+    //public void f_ClearGame() //게임 클리어 전환
+    //{
+    //    SceneManager.LoadScene("ClearScene");
+
+    //    SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM1); //스테이지1 배경음악 재생 중지
+    //    SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
+    //}
+
+    
+>>>>>>> Stashed changes
 
     public void f_OpenMainMenu() //메인메뉴 전환
     {
         //SceneManager.LoadScene("");
     }
 
+<<<<<<< Updated upstream
+=======
+    
+
+>>>>>>> Stashed changes
 }

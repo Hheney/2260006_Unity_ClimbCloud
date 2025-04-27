@@ -1,10 +1,19 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 7866fdbbb7e239b458e99d63fad6a7fd
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -7616046148805037923
     second: final_platform_1_1_fixed_0
+=======
+guid: 240ff59e0abbd4e4faaf125becf6fec5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2386941500350196969
+    second: city_3_0
+>>>>>>> Stashed changes
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,6 +105,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< Updated upstream
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -109,11 +119,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+=======
+>>>>>>> Stashed changes
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
+<<<<<<< Updated upstream
       name: final_platform_1_1_fixed_0
+=======
+      name: city_3_0
+>>>>>>> Stashed changes
       rect:
         serializedVersion: 2
         x: 56
@@ -128,8 +144,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
+<<<<<<< Updated upstream
       spriteID: d907e73116e5e4690800000000000000
       internalID: -7616046148805037923
+=======
+      spriteID: 7131dfb1a51efded0800000000000000
+      internalID: -2386941500350196969
+>>>>>>> Stashed changes
       vertices: []
       indices: 
       edges: []
@@ -147,8 +168,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
+<<<<<<< Updated upstream
     nameFileIdTable:
       final_platform_1_1_fixed_0: -7616046148805037923
+=======
+    nameFileIdTable: {}
+>>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -3,22 +3,45 @@
  * 이 문제점을 해결하기 위해서는, 카메라가 플레이어를 따라다니며 움직일 수 있도록 스크립트 작성
  */
 using UnityEngine;
+<<<<<<< Updated upstream
+=======
+using UnityEngine.UIElements;
+>>>>>>> Stashed changes
 
 public class CameraController : MonoBehaviour
 {
     GameObject m_gPlayer = null; //플레이어 오브젝트 변수
+<<<<<<< Updated upstream
     Vector3 vPlayerPos = Vector3.zero; //플레이어의 y좌표를 저장하기 위한 벡터 변수
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         m_gPlayer = GameObject.Find("player"); //Find 메소드를 사용하여 player 오브젝트를 찾아온다.
+=======
+    GameObject m_gCam = null;   //카메라 오브젝트 변수
+    Vector3 vPlayerPos = Vector3.zero; //플레이어의 y좌표를 저장하기 위한 벡터 변수
+
+    float fCamY = 0.0f; //카메라의 y좌표 변수
+    bool isPlayerOnGround = false;  //플레이어가 지면에 닿았는지 여부 bool변수
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        m_gPlayer = GameObject.Find("player"); //Find 메소드를 사용ㅎ여 player 오브젝트를 찾아온다.
+        m_gCam = GameObject.Find("Main Camera");
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
     void Update()
     {
         f_PlayerCamPosSync(); //플레이어의 위치와 메인 카메라의 위치를 동기화하는 메소드
+<<<<<<< Updated upstream
+=======
+
+        f_CamRangeLimit();  //카메라가 화면 아래를 보여주지 않도록 위치를 제한하는 메소드
+>>>>>>> Stashed changes
     }
 
     void f_PlayerCamPosSync()
@@ -31,6 +54,29 @@ public class CameraController : MonoBehaviour
 
         vPlayerPos = m_gPlayer.transform.position; //플레이어의 위치를 벡터 변수에 저장
 
+<<<<<<< Updated upstream
         transform.position = new Vector3(transform.position.x, vPlayerPos.y, transform.position.z); //메인 카메라의 y축 값을 플레이어 위치로 변경
+=======
+        if (isPlayerOnGround == false)
+        {
+            transform.position = new Vector3(transform.position.x, vPlayerPos.y, transform.position.z); //메인 카메라의 y축 값을 플레이어 위치로 변경
+        }
+    }
+    void f_CamRangeLimit()
+    {
+        if(vPlayerPos.y < 0.0f) //플레이어가 지면에 있을 경우 true로 변환
+        {
+            isPlayerOnGround = true;
+        }
+        else
+        {
+            isPlayerOnGround = false;
+        }
+
+        if (isPlayerOnGround == true)   //카메라의 y좌표를 0으로 고정하여 맵의 바깥을 보이지 않도록 고정
+        {
+            transform.position = new Vector3(transform.position.x, fCamY, transform.position.z);
+        }
+>>>>>>> Stashed changes
     }
 }

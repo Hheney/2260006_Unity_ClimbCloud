@@ -2,6 +2,10 @@
 
 using System.Data.SqlTypes;
 using UnityEngine;
+<<<<<<< Updated upstream
+=======
+using UnityEngine.SceneManagement;
+>>>>>>> Stashed changes
 
 public class ClearDirector : MonoBehaviour
 {
@@ -24,7 +28,12 @@ public class ClearDirector : MonoBehaviour
          */
         if (Input.GetMouseButtonDown(0))
         {
+<<<<<<< Updated upstream
             GameManager.Instance.f_RestartGame();
+=======
+            //GameManager.Instance.f_RestartGame();
+            SceneManager.LoadScene("MainMenu");
+>>>>>>> Stashed changes
         }
     }
 

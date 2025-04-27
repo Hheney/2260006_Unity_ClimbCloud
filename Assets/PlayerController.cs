@@ -5,8 +5,15 @@
  * 2. 플레이어를 좌우로 움직이기
  */
 using Unity.Hierarchy;
+<<<<<<< Updated upstream
 using UnityEditor.Timeline;
 using UnityEngine;
+=======
+using Unity.VisualScripting;
+using UnityEditor.Timeline;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+>>>>>>> Stashed changes
 
 public class PlayerController : MonoBehaviour
 {
@@ -39,6 +46,11 @@ public class PlayerController : MonoBehaviour
     bool isSpacebarPress = false;   //스페이스바가 눌러져있는지 여부
     bool isPlayerOnCloud = false;   //플레이어가 구름위에 있는지 여부
 
+<<<<<<< Updated upstream
+=======
+    //GameObject m_StageClear = null;
+
+>>>>>>> Stashed changes
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,6 +63,13 @@ public class PlayerController : MonoBehaviour
 
         //GetComponent 메소드를 사용해 Animator 컴포넌트를 구함
         m_animatorCat = GetComponent<Animator>();
+<<<<<<< Updated upstream
+=======
+
+        //m_StageClear = GameObject.Find("StageClear");
+        //m_StageClear.SetActive(false);
+
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -120,11 +139,19 @@ public class PlayerController : MonoBehaviour
 
         /* 디버그 중 linearVelocity.y 조건이 모호하여 공중에서 점프할 수 있는 경우가 재현되어 삭제
    
+<<<<<<< Updated upstream
         //플레이어의 y축 가속도가 0이면 플레이어가 구름 위에 있는 것으로 판단한다. 
         if (m_rigid2DCat.linearVelocity.y == 0)
         {
             isPlayerOnCloud = true;
         }*/
+=======
+        //플레이어의 y축 가속도가 0이면 플레이어가 구름 위에 있는 것으로 판단한다. */
+        if (m_rigid2DCat.linearVelocity.y == 0)
+        {
+            isPlayerOnCloud = true;
+        }
+>>>>>>> Stashed changes
 
         //플레이어가 구름 위에 있고 스페이스바를 누를 경우, 누른 시간 초기화 및 가산을 위한 bool 변수 전환
         if (Input.GetKeyDown(KeyCode.Space) && isPlayerOnCloud)
@@ -163,6 +190,11 @@ public class PlayerController : MonoBehaviour
             m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
             m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
 
+<<<<<<< Updated upstream
+=======
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_Jump, 0.1f); //점프 효과음 10% 볼륨으로 재생
+
+>>>>>>> Stashed changes
             Debug.Log("Jump Ratio: " + fReinforceJumpRatio + ", Force: " + fReinforceJumpForce);
             isSpacebarPress = false; //스페이스바 거짓값
         }
@@ -257,9 +289,18 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < -4.5f)
         {
             //Destroy(gameObject);
+<<<<<<< Updated upstream
             //SceneManager.LoadScene("GameScene");
             //GameManager.Instance.f_RestartGame();
             transform.position = new Vector3(0, 0, 0);  //씬 추가에 따라 플레이어의 기본 위치를 지정해 그곳에서 다시 시작하도록 변경
+=======
+            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.1f); //게임 오버 효과음 10% 볼륨으로 재생
+
+            //SceneManager.LoadScene("GameScene");
+            //GameManager.Instance.f_RestartGame(); //게임 재시작
+
+            transform.position = new Vector3(0.0f, -3.0f, 0.0f);    //해당 스테이지의 처음부터 다시 시작하도록 수정
+>>>>>>> Stashed changes
         }
     }
 
@@ -271,9 +312,35 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("클리어!");
+<<<<<<< Updated upstream
         //SceneManager.LoadScene("ClearScene");
 
         GameManager.Instance.f_ClearGame(); 
+=======
+        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
+
+        //SceneManager.LoadScene("ClearScene");
+        //GameManager.Instance.f_ClearGame();
+
+        //if (collision.gameObject.CompareTag("Flag"))
+        //{
+        //    m_StageClear.SetActive(true);
+        //}
+    }
+
+    public void ContinueDownFirst()
+    {
+        SceneManager.LoadScene("GameScene");
+        SoundManager.Instance.f_StopAllSounds();    //사운드 정지
+        SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f); //2스테이지 사운드 재생
+    }
+
+    public void ContinueDownSecond()
+    {
+        SceneManager.LoadScene("ThirdScene");
+        SoundManager.Instance.f_StopAllSounds();    //사운드 정지
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM3, 0.1f); //3스테이지 사운드 재생
+>>>>>>> Stashed changes
     }
 
     /*
@@ -317,6 +384,12 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("플레이어가 점프함");
             isPlayerOnCloud = false; //플레이어 착지 거짓
+<<<<<<< Updated upstream
         }   
     }
+=======
+        }
+    }
+    
+>>>>>>> Stashed changes
 }
