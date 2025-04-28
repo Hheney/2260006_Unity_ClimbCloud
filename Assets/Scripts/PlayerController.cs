@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ReturnToTitle()
+    private void f_ReturnToTitle()
     {
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
         GameManager.Instance.f_OpenTitle(); //임시
@@ -345,25 +345,4 @@ public class PlayerController : MonoBehaviour
             isPlayerOnCloud = false; //플레이어 착지 거짓
         }
     }
-
-    /*
-     * 개선 가능성
-     * 클리어 부분에서 BGM, SFX를 따로 재생
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.CompareTag("Goal"))
-            {
-                Debug.Log("클리어!");
-                SoundManager.Instance.f_StopAllBGM();
-                SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.5f); // 클리어 효과음 재생
-                Invoke("ReturnToTitle", 2.0f); // 효과음 재생 후 2초 뒤 타이틀로 이동
-            }
-        }
-        
-        private void ReturnToTitle()
-        {
-            SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
-            GameManager.Instance.f_OpenTitle();
-        }
-     */
 }
