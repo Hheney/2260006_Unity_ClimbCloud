@@ -24,7 +24,13 @@
 - foreach 문에서 명확한 타입 지정(AudioUnit unit)을 통해 코드 가독성 향상
 - 사운드 재생 시 일치하는 사운드를 찾으면 즉시 return하여 불필요한 반복 방지
 - Inspector를 통해 AudioUnit 추가만으로 손쉽게 BGM/SFX 확장 가능
-
+- [고급화] / [확장가능성]
+  - 게임 실행 중 BGM 볼륨 조정 가능
+  - 게임 실행 중 SFX 볼륨 조정 가능
+  - 슬라이더(Slider) UI를 사용해서 실시간 조정 가능
+  - 게임 껐다 켜도 마지막 볼륨 기억 (PlayerPrefs 저장) 가능
+  - 옵션 버튼을 눌렀을 때 OptionPanel 열고 닫기 기능 추가
+ 
 #### 4.🎬 타이틀 화면 및 메인 메뉴 전환 기능 (Title Scene and Menu System)
 - [타이틀 화면과 메인 메뉴를 통한 게임 시작 흐름 구축]
 - TitleScene을 추가하여 게임 시작 전 타이틀 화면 제공
