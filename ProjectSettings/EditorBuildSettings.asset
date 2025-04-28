@@ -6,28 +6,25 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-<<<<<<< Updated upstream
-    path: Assets/GameScene.unity
+    path: Assets/Scenes/ManagerScene.unity
+    guid: df16a36b1eee5784598ac9bc2c8c5b72
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: a80e5de2513cb1b40b596fddb07a75a9
+  - enabled: 1
+    path: Assets/Scenes/FirstStage.unity
+    guid: 9d09de78809d10c40966dfac57796b69
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
     guid: 5102c0c2a70b13048a3849649955f82d
   - enabled: 1
-=======
-    path: Assets/MainMenu.unity
-    guid: eecf203ef34c78a479057dd7fc67038d
+    path: Assets/Scenes/ThirdStage.unity
+    guid: 35893e67a4378b34491549184a9b8706
   - enabled: 1
-    path: Assets/FirstStage.unity
-    guid: 976686a9b0d5ffb48a3865c75cbe4504
-  - enabled: 1
-    path: Assets/GameScene.unity
-    guid: 5102c0c2a70b13048a3849649955f82d
-  - enabled: 1
-    path: Assets/ThirdScene.unity
-    guid: eb695ef6e18661748850f4a9a1f497cf
-  - enabled: 1
->>>>>>> Stashed changes
-    path: Assets/ClearScene.unity
+    path: Assets/Scenes/ClearScene.unity
     guid: a81a5ca4e8043234ab8c11f71bd69ce8
   - enabled: 0
-    path: Assets/SampleScene.unity
+    path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

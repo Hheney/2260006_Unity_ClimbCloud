@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-guid: 1f17e38e2f8277a46bf318c391ee727b
-TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 6574477078430051700
-    second: space_background_extended_3x_0
-=======
-guid: 280ef393410207146baebc7ef3362a5e
+guid: e25648340cce4e441933040f02fb4fa9
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 7253652341725546674
     second: space_0
->>>>>>> Stashed changes
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,9 +96,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< Updated upstream
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -119,17 +109,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-=======
->>>>>>> Stashed changes
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-<<<<<<< Updated upstream
-      name: space_background_extended_3x_0
-=======
       name: space_0
->>>>>>> Stashed changes
       rect:
         serializedVersion: 2
         x: 0
@@ -144,13 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-<<<<<<< Updated upstream
-      spriteID: 47d65cbd11c3d3b50800000000000000
-      internalID: 6574477078430051700
-=======
       spriteID: 2b84bb09f562aa460800000000000000
       internalID: 7253652341725546674
->>>>>>> Stashed changes
       vertices: []
       indices: 
       edges: []
@@ -168,12 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-<<<<<<< Updated upstream
-    nameFileIdTable:
-      space_background_extended_3x_0: 6574477078430051700
-=======
     nameFileIdTable: {}
->>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

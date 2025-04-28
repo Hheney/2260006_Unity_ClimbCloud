@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-guid: e22f1ebbd41326249970beddc3872562
-TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -8517955258450785606
-    second: "ChatGPT Image 2025\uB144 4\uC6D4 26\uC77C \uC624\uD6C4 06_10_50_0"
-=======
-guid: 9c2934cd89320a748b211fd6f11ffb7b
+guid: 581da26fe16c64f4fb5c40762b0f3d3b
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: -1656166294940094332
     second: city_0
->>>>>>> Stashed changes
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,9 +96,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< Updated upstream
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -119,17 +109,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-=======
->>>>>>> Stashed changes
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-<<<<<<< Updated upstream
-      name: "ChatGPT Image 2025\uB144 4\uC6D4 26\uC77C \uC624\uD6C4 06_10_50_0"
-=======
       name: city_0
->>>>>>> Stashed changes
       rect:
         serializedVersion: 2
         x: 0
@@ -144,13 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-<<<<<<< Updated upstream
-      spriteID: abace5f82d42ac980800000000000000
-      internalID: -8517955258450785606
-=======
       spriteID: 480fe1d878d1409e0800000000000000
       internalID: -1656166294940094332
->>>>>>> Stashed changes
       vertices: []
       indices: 
       edges: []
@@ -168,12 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-<<<<<<< Updated upstream
-    nameFileIdTable:
-      "ChatGPT Image 2025\uB144 4\uC6D4 26\uC77C \uC624\uD6C4 06_10_50_0": -8517955258450785606
-=======
     nameFileIdTable: {}
->>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
