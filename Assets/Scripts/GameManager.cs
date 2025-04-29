@@ -3,33 +3,9 @@
  * 여러 스크립트에서 다중 사용이 될 요소를 통합하여 관리하기 위함
  * 또한 객체지향의 5원칙중 하나인 단일 책임 원칙(Single Responsibility Principle)을 준수하기 위함
  */
-
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement; //씬을 전환하기 위한 씬매니저 임포트
-
-/*
- * 매개변수로 받은 오브젝트를 SetActive, true false값을 변경할 수 있는 메소드
- */
-//public class NextSceneManager : MonoBehaviour
-//{
-//    public static void f_NextScene(GameObject gameObject, bool isActive, bool isClick, string sceneName)
-//    {
-//        Debug.Log($"오브젝트 명칭 : {gameObject}");
-
-
-//        gameObject.SetActive(isActive);
-
-//        if(isClick)
-//        {
-//            SceneManager.LoadScene(sceneName);
-//            return;
-//        }
-        
-//    }
-//}
-
-
 
 /// <summary> 게임 전역에서 게임의 전반을 관리하는 매니저 클래스 </summary>
 public class GameManager : MonoBehaviour
@@ -37,8 +13,6 @@ public class GameManager : MonoBehaviour
     // singleton pattern: 클래스 하나에 인스턴스가 하나만 생성되는 프래그래밍 패턴
 
     private static GameManager _instance = null;
-
-    //[SerializeField] private string nextSceneName;
 
     public static GameManager Instance
     {
@@ -160,5 +134,4 @@ public class GameManager : MonoBehaviour
 
         return sSceneName;
     }
-
 }
