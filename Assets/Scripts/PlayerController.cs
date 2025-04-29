@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("클리어!");
             SoundManager.Instance.f_StopAllBGM();
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.5f); //클리어 효과음 재생
-            Invoke("ReturnToTitle", 2.0f); //효과음 재생 후 2초 뒤 타이틀로 이동
+            Invoke("f_ReturnToTitle", 2.0f); //효과음 재생 후 2초 뒤 타이틀로 이동
         }
 
         /*
