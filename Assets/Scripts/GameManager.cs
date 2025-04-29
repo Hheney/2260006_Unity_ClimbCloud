@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance = null;
 
-    [SerializeField] private string nextSceneName;
+    //[SerializeField] private string nextSceneName;
 
     public static GameManager Instance
     {
@@ -97,36 +97,43 @@ public class GameManager : MonoBehaviour
 
     //여러 스크립트에서 다중 사용이 예상되어 GameManger에서 메소드화
 
+    /// <summary> 타이틀 화면으로 이동하는 메소드 </summary>
     public void f_OpenTitle() //타이틀 화면
     {
         SceneManager.LoadScene("TitleScene");
     }
 
+    /// <summary> 2번째 스테이지씬으로 이동하는 메소드 </summary>
     public void f_GameStart() //게임 시작
     {
         SceneManager.LoadScene("GameScene");
     }
 
+    /// <summary> 메인 메뉴씬으로 이동하는 메소드 </summary>
     public void f_OpenMainMenu()
     {
         //SceneManager.LoadScene("");
     }
 
+    /// <summary> 매개변수로 받은 씬으로 이동하는 메소드 </summary>
     public void f_OpenScene(string SceneName)
     {
         SceneManager.LoadScene(SceneName);
     }
 
+    /// <summary> 스테이지를 선택할 수 있는 씬으로 이동하는 메소드 </summary>
     public void f_OpenStageSelect()
     {
         //SceneManager.LoadScene("");
     }
 
+    /// <summary> 게임오버씬으로 이동하는 메소드 </summary>
     public void f_GameOver()
     {
         //SceneManager.LoadScene("");
     }
 
+    /// <summary> 게임을 재시작하는 메소드 </summary>
     public void f_RestartGame() //게임 재시작
     {
         SceneManager.LoadScene("TitleScene");
@@ -143,7 +150,8 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
     }
 
-    //활성화된 씬 네임을 불러오는 메소드
+    //활성화된 씬 이름을 불러와서 씬에 맞는 BGM 재생을 자동화 하기위함(미완성)
+    /// <summary> 활성화된 씬 네임을 불러오는 메소드 </summary>
     public string f_GetSceneName()
     {
         string sSceneName = null;
