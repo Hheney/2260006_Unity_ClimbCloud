@@ -4,6 +4,7 @@
  * 또한 객체지향의 5원칙중 하나인 단일 책임 원칙(Single Responsibility Principle)을 준수하기 위함
  */
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement; //씬을 전환하기 위한 씬매니저 임포트
 
@@ -142,8 +143,14 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
     }
 
-    public void OnClickNextStage()//다음 씬으로 넘어가는 메소드
+    //활성화된 씬 네임을 불러오는 메소드
+    public string f_GetSceneName()
     {
-        SceneManager.LoadScene(nextSceneName);
+        string sSceneName = null;
+
+        sSceneName = SceneManager.GetActiveScene().name;
+
+        return sSceneName;
     }
+
 }

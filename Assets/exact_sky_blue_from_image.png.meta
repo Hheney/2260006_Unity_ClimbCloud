@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      exact_sky_blue_from_image_0: 1201057995356882108
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

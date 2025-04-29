@@ -1,9 +1,11 @@
 //메인메뉴
 //게임 시작하기
+//게임 종료하기
 
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor; //EditorApplication 사용을 위해 임포트
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -49,7 +51,11 @@ public class MainMenuManager : MonoBehaviour
     public void QuitDown()  //종료 버튼
     {
         SoundManager.Instance.f_PlaySFX(SoundName.SFX_ButtonClick, 0.7f);
-        Application.Quit();
+        
+        //Application.Quit(); //App 종료
+
+        //에디터 종료(에디터 상에서 프로그램이 실행되기 때문에 에디터 실행을 종료)
+        UnityEditor.EditorApplication.isPlaying = false; 
     }
 
 }
