@@ -186,6 +186,7 @@ public class SoundManager : MonoBehaviour
             if(unit.AudioSource.isPlaying)
             {
                 unit.AudioSource.Stop();
+                return;
             }
         }
     }

@@ -7,30 +7,37 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; //씬을 전환하기 위한 씬매니저 임포트
 
-
 /*
  * 매개변수로 받은 오브젝트를 SetActive, true false값을 변경할 수 있는 메소드
  */
+//public class NextSceneManager : MonoBehaviour
+//{
+//    public static void f_NextScene(GameObject gameObject, bool isActive, bool isClick, string sceneName)
+//    {
+//        Debug.Log($"오브젝트 명칭 : {gameObject}");
 
-/// <summary> ContinueButton의 활성화 여부와 특정 씬 전환을 위한 메소드 </summary>
-public class NextSceneManager : MonoBehaviour
-{
-    public static void f_NextScene(GameObject gameObject, bool isActive, string sceneName)
-    {
-        Debug.Log($"오브젝트 명칭 : {gameObject}");
 
-        gameObject.SetActive(isActive);
+//        gameObject.SetActive(isActive);
 
-        SceneManager.LoadScene(sceneName);
-    }
-}
+//        if(isClick)
+//        {
+//            SceneManager.LoadScene(sceneName);
+//            return;
+//        }
+        
+//    }
+//}
+
+
 
 /// <summary> 게임 전역에서 게임의 전반을 관리하는 매니저 클래스 </summary>
 public class GameManager : MonoBehaviour
 {
     // singleton pattern: 클래스 하나에 인스턴스가 하나만 생성되는 프래그래밍 패턴
 
-    private static GameManager _instance = null; 
+    private static GameManager _instance = null;
+
+    [SerializeField] private string nextSceneName;
 
     public static GameManager Instance
     {
@@ -104,6 +111,11 @@ public class GameManager : MonoBehaviour
         //SceneManager.LoadScene("");
     }
 
+    public void f_OpenScene(string SceneName)
+    {
+        SceneManager.LoadScene(SceneName);
+    }
+
     public void f_OpenStageSelect()
     {
         //SceneManager.LoadScene("");
@@ -116,7 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void f_RestartGame() //게임 재시작
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("TitleScene");
 
         //SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM2);
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
@@ -128,5 +140,10 @@ public class GameManager : MonoBehaviour
 
         //SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM1); //스테이지1 배경음악 재생 중지
         SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
+    }
+
+    public void OnClickNextStage()//다음 씬으로 넘어가는 메소드
+    {
+        SceneManager.LoadScene(nextSceneName);
     }
 }
