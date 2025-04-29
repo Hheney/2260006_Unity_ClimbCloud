@@ -2,6 +2,7 @@
  * 플레이어가 화면에 보이지 않는 더 위쪽까지 이동하면, 카메라가 따라 갈 수 없는 문제점 발생
  * 이 문제점을 해결하기 위해서는, 카메라가 플레이어를 따라다니며 움직일 수 있도록 스크립트 작성
  */
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -12,7 +13,7 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_gPlayer = GameObject.Find("player"); //Find 메소드를 사용ㅎ여 player 오브젝트를 찾아온다.
+        m_gPlayer = GameObject.Find("player"); //Find 메소드를 사용하여 player 오브젝트를 찾아온다.
     }
 
     // Update is called once per frame
