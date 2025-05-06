@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 18142359}
   - component: {fileID: 18142358}
   m_Layer: 0
-  m_Name: TitleUIContorller
+  m_Name: TitleSceneContorller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +758,7 @@ GameObject:
   - component: {fileID: 1563465892}
   - component: {fileID: 1563465891}
   m_Layer: 0
-  m_Name: title_0
+  m_Name: GameTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 1784068410}
   - component: {fileID: 1784068409}
   m_Layer: 0
-  m_Name: mainmenu_0
+  m_Name: MunuBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1052,7 +1052,7 @@ SceneRoots:
   - {fileID: 1355127279}
   - {fileID: 1769570357}
   - {fileID: 18142359}
-  - {fileID: 1682401842}
   - {fileID: 1784068410}
   - {fileID: 1563465892}
   - {fileID: 1356081953}
+  - {fileID: 1682401842}

@@ -20,8 +20,9 @@
  * 
  * 사용 방법:
  * 1. SoundManager 오브젝트로 이동 → Audio Units내 리스트를 추가하고 SoundName, Audio Source, Audio Clip 파일 지정
- * 2. PlayBGM() 또는 PlaySFX() 메서드를 호출해 사운드를 재생가능
- * 3. 필요 시 StopBGM()으로 특정 BGM을 정지가능
+ * 2. f_PlayBGM() 또는 PlaySFX() 메서드를 호출해 특정 사운드를 재생가능
+ * 3. f_AutoPlayBGM()을 각 씬 Start() 메소드 내 호출하여 자동으로 씬에 맞는 배경음악 재생가능
+ * 4. 필요 시 StopBGM()으로 특정 BGM을 정지가능
  * ---------------------------------------------------------------
  */
 using NUnit.Framework;
@@ -38,6 +39,7 @@ public enum SoundName
     BGM_MainMenu,   //메인메뉴 배경음악
     BGM_StageBGM1,  //스테이지1 배경음악
     BGM_StageBGM2,  //스테이지2 배경음악
+    BGM_StageBGM3,  //스테이지3 배경음악
 
     //효과음
     SFX_GameOver,   //게임 오버 효과음
@@ -73,6 +75,18 @@ public class AudioUnit
 /// <summary> 게임 전역에서 사운드를 관리하는 매니저 클래스 </summary>
 public class SoundManager : MonoBehaviour
 {
+    /// <summary> 씬 이름(Key)과 SoundName(Value)을 1:1 매핑하는 딕셔너리 </summary>
+    private Dictionary<string, SoundName> dBGMMap = new Dictionary<string, SoundName>()
+    {
+        //씬 네임(Key)은 String, 사운드 명칭(Value)은 열거형으로 작성되어 int형이므로 딕셔너리를 사용해 1:1 매핑함
+        {"TitleScene", SoundName.BGM_Title },
+        {"MainMenuScene", SoundName.BGM_MainMenu},
+        {"FirstStage", SoundName.BGM_StageBGM1},
+        {"GameScene", SoundName.BGM_StageBGM2 },
+        {"ThirdStage", SoundName.BGM_StageBGM3 }, 
+        {"ClearScene", SoundName.BGM_MainMenu}      //클리어씬 BGM이 누락되어 임시로 MainMenu BGM 매핑
+    };
+
     [Header("Audio Units")] //Inspector에서 리스트를 구분하기 위해 머릿말("Audio Units") 추가
     [SerializeField] private List<AudioUnit> UnitBGM = new List<AudioUnit>(); //BGM 전용 AudioUnit 리스트
     [SerializeField] private List<AudioUnit> UnitSFX = new List<AudioUnit>(); //SFX 전용 AudioUnit 리스트
@@ -131,6 +145,22 @@ public class SoundManager : MonoBehaviour
      * 
      * foreach문을 사용하면 리스트 크기만큼 반복가능하므로 자동화를 위해 사용함
      */
+
+    /// <summary> 씬에 알맞은 배경음악을 자동으로 재생하는 메소드 </summary>
+    public void f_AutoPlayBGM()
+    {
+        SoundName soundName; //딕셔너리에서 일치하는 매핑된 사운드 지역변수 선언
+        string sSceneName = GameManager.Instance.f_GetSceneName(); //씬 이름 변수에 활성화된 씬 이름 저장
+
+        if(dBGMMap.TryGetValue(sSceneName, out soundName))
+        {
+            f_PlayBGM(soundName, 0.1f); //매핑된 배경음악 10% 볼륨으로 재생
+        }
+        else
+        {
+            Debug.LogWarning($"BGM mapping not found for scene : {sSceneName}"); //매핑된 값이 없을 경우 경고 출력
+        }
+    }
 
     /// <summary> 매개변수로 전달받은 배경음악을 재생하는 메소드 </summary>
     public void f_PlayBGM(SoundName soundName, float volume)

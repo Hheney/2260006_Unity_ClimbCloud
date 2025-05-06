@@ -111,20 +111,14 @@ public class GameManager : MonoBehaviour
     public void f_RestartGame() //게임 재시작
     {
         SceneManager.LoadScene("TitleScene");
-
-        //SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM2);
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //스테이지1 배경음악 10% 볼륨으로 재생
     }
 
     public void f_OpenClearGame() //게임 클리어 전환
     {
         SceneManager.LoadScene("ClearScene");
-
-        //SoundManager.Instance.f_StopBGM(SoundName.BGM_StageBGM1); //스테이지1 배경음악 재생 중지
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM2, 0.1f);
     }
 
-    //활성화된 씬 이름을 불러와서 씬에 맞는 BGM 재생을 자동화 하기위함(미완성)
+    //활성화된 씬 이름을 불러와서 씬에 맞는 BGM 재생을 자동화 하기위함
     /// <summary> 활성화된 씬 네임을 불러오는 메소드 </summary>
     public string f_GetSceneName()
     {
