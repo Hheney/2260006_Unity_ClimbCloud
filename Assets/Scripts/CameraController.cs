@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_gPlayer = GameObject.Find("player"); //Find 메소드를 사용ㅎ여 player 오브젝트를 찾아온다.
+        m_gPlayer = GameObject.Find("Wizard"); //Find 메소드를 사용ㅎ여 player 오브젝트를 찾아온다.
         m_gCam = GameObject.Find("Main Camera");//카메라 오브젝트 찾아온다
     }
 
