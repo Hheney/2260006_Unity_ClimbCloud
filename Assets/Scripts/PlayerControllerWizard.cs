@@ -9,24 +9,24 @@ using Unity.Hierarchy;
 using UnityEditor.Timeline;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerWizard : MonoBehaviour
 {
     float fMaxPosition = 2.1f;  //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최대값 설정 변수
     float fMinPosition = -2.1f; //플레이어가 좌, 우 이동시 게임창을 벗어나지 않도록 Vector 최소값 설정 변수
     float fPositionX = 0.0f;    //플레이어의 위치 변수
 
     //Cat 오브젝트의 Rigidbody2D 컴포넌트를 갖는 멤버 변수(m_)
-    Rigidbody2D m_rigid2DCat = null;
+    Rigidbody2D m_rigid2DWizard = null;
 
     float fJumpForce = 680.0f; //플레이어에 가할 힘 값을 저장할 변수
     float fWalkForce = 30.0f; //플레이어 좌, 우로 움직이는 가속도
-    float fMaxWalkSpeed = 2.0f; //플레이어의 이동 속도가 지정한 최고 속도
+    float fMaxWalkSpeed = 1.5f; //플레이어의 이동 속도가 지정한 최고 속도
     int nLeftRightKeyValue = 0; //플레이어 좌우 움직임 키 값 : 오른쪽 화살 키: 1, 왼쪽 화살 키: -1, 움직이지 않을 때: 0
 
     float fPlayerMoveSpeed = 0.0f; //플레이어 좌우 움직이는 속도
 
     //플레이어 이동 속도에 맞춰 애니메이션 재생 속도를 재생하기 위해 애니메이터 변수 선언
-    Animator m_animatorCat = null;
+    Animator m_animatorWizard = null;
 
     //강화 점프 기믹구현
     float fSpacebarPressTime = 0.0f;        //스페이스바를 누른 시간 변수
@@ -51,13 +51,13 @@ public class PlayerController : MonoBehaviour
          * Rigidbody2D 컴포넌트를 갖는 메소드를 사용하기 때문에 Start 메소드에서 GetComponent 메소드를 사용해서
          * Rigidbody2D 컴포넌트를 구해 멤버 변수에 저장
          */
-        m_rigid2DCat = GetComponent<Rigidbody2D>();
+        m_rigid2DWizard = GetComponent<Rigidbody2D>();
 
         //GetComponent 메소드를 사용해 Animator 컴포넌트를 구함
-        m_animatorCat = GetComponent<Animator>();
+        m_animatorWizard = GetComponent<Animator>();
 
         gStageClear = GameObject.Find("StageClear");
-        gPlayer = GameObject.Find("player");
+        gPlayer = GameObject.Find("Wizard");
 
         gStageClear.SetActive(true);
         gStageClear.SetActive(false);
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         f_SwitchPlayerDirection();  //플레이어가 바라보는 방향을 전환해주는 메소드
         f_SyncAnimationSpeed();     //플레이어의 속도에 따라 애니메이션 속도를 동기화시키는 메소드
-        
+
         f_PlayerRangeLimit();       //플레이어가 화면밖으로 벗어나지 않게 하는 메소드
         f_PlayerFallingGround();    //플레이어가 땅으로 낙하하면 게임을 다시 시작하는 메소드
     }
@@ -92,14 +92,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             nLeftRightKeyValue = 1;
+            m_animatorWizard.SetBool("isRun", true); //달리기 애니메이션 재생
         }
-        else if(Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             nLeftRightKeyValue = -1;
+            m_animatorWizard.SetBool("isRun", true); //달리기 애니메이션 재생
         }
         else
         {
             nLeftRightKeyValue = 0;
+            m_animatorWizard.SetBool("isRun", false); //달리기 애니메이션 재생 중단
         }
     }
 
@@ -111,10 +114,10 @@ public class PlayerController : MonoBehaviour
          * 즉, 플레이어에 힘을 가하려면 Rigidbody2D 컴포넌트가 가진 AddForce 메소드를 사용한다.
          */
 
-        if (Input.GetKeyDown(KeyCode.Space) && m_rigid2DCat.linearVelocity.y == 0)
+        if (Input.GetKeyDown(KeyCode.Space) && m_rigid2DWizard.linearVelocity.y == 0)
         {
-            m_animatorCat.SetTrigger("JumpTrigger");
-            m_rigid2DCat.AddForce(transform.up * fJumpForce);
+            m_animatorWizard.SetTrigger("JumpTrigger");
+            m_rigid2DWizard.AddForce(transform.up * fJumpForce);
         }
     }
 
@@ -170,8 +173,10 @@ public class PlayerController : MonoBehaviour
             //강화 점프 가속도= 선형 보간(최소 힘, 최대 힘, 강화 점프 비율)
             fReinforceJumpForce = Mathf.Lerp(fMinReinforceJumpForce, fMaxReinforceJumpForce, fReinforceJumpRatio);
 
-            m_animatorCat.SetTrigger("JumpTrigger"); //점프 애니메이션 활성화
-            m_rigid2DCat.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
+            //m_animatorWizard.SetTrigger("JumpTrigger");
+            m_animatorWizard.SetBool("isJump", true);   //점프 애니메이션 활성화
+
+            m_rigid2DWizard.AddForce(transform.up * fReinforceJumpForce); //강화 점프 힘 만큼 up 방향으로 힘을 가함
 
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_Jump, 0.1f); //점프 효과음 10% 볼륨으로 재생
 
@@ -186,7 +191,7 @@ public class PlayerController : MonoBehaviour
         //이 메소드 내부에서만 사용되므로 지역변수 구현
         float fBlinkSpan = Mathf.PingPong(Time.time * 5, 1.0f);
 
-        if(isSpacebarPress)
+        if (isSpacebarPress)
         {
             //흰색과 노란색이 깜박임 주기만큼 변환됨
             GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.yellow, fBlinkSpan);
@@ -210,16 +215,17 @@ public class PlayerController : MonoBehaviour
          * AddForce의 경우 순간적으로 튀어 오르고 점차 속도가 줄어들면서 떨어지는 점프에 적합
          * Velocity는 동일한 속도를 달리는 러너게임 캐릭터 이동에 적합
          */
-        fPlayerMoveSpeed = Mathf.Abs(m_rigid2DCat.linearVelocity.x);
+        fPlayerMoveSpeed = Mathf.Abs(m_rigid2DWizard.linearVelocity.x);
 
         if (fPlayerMoveSpeed < fMaxWalkSpeed)
         {
-            m_rigid2DCat.AddForce(transform.right * fWalkForce * nLeftRightKeyValue);
+            m_rigid2DWizard.AddForce(transform.right * fWalkForce * nLeftRightKeyValue);
         }
     }
 
     void f_SwitchPlayerDirection()
     {
+        float fCurrentScaleX = 0.0f;
         /*
          * 움직이는 방향에 따라 플레이어 이미지를 반전
          * 플레이어가 오른쪽으로 움직이면 스트라이트도 오른쪽으로 향하고,
@@ -228,9 +234,24 @@ public class PlayerController : MonoBehaviour
          * 스프라이트의 배율을 바꾸려면 tranform 컴포넌트의 localScale 변수 값을 변경
          * 오른쪽 화살표는 1배, 왼쪽화살표는 X축 방향으로 -1배
          */
+        /*
         if (nLeftRightKeyValue != 0)
         {
             transform.localScale = new Vector3(nLeftRightKeyValue, 1.0f, 1.0f);
+        }
+        */
+        /*
+         * Wizard 스케일이 기존 cat에 비하여 크기가 커 스케일이 초기화되는 문제가 발생함
+         * 문제를 해결하기위해 transform.localScale.x에 기존 크기 값 × 방향을 곱하여 처리하는 방식으로 변경함
+         * y, z값 또한 사전 지정된 localScale값을 따르도록 변경
+         */
+
+        if (nLeftRightKeyValue != 0)
+        {
+            fCurrentScaleX = Mathf.Abs(transform.localScale.x); //절대값 메소드를 사용해 양수 스케일값 전달
+
+            transform.localScale = new Vector3(fCurrentScaleX * nLeftRightKeyValue, 
+                transform.localScale.y, transform.localScale.z);
         }
     }
 
@@ -244,13 +265,13 @@ public class PlayerController : MonoBehaviour
          */
         //m_animatorCat.speed = fPlayerMoveSpeed / 1.0f;
 
-        if (m_rigid2DCat.linearVelocity.y == 0)
+        if (m_rigid2DWizard.linearVelocity.y == 0)
         {
-            m_animatorCat.speed = fPlayerMoveSpeed / 2.0f;
+            m_animatorWizard.speed = fPlayerMoveSpeed / 2.0f;
         }
         else
         {
-            m_animatorCat.speed = 1.0f;
+            m_animatorWizard.speed = 1.0f;
         }
     }
 
@@ -268,14 +289,12 @@ public class PlayerController : MonoBehaviour
         string sSceneName = null;
 
         //-4.5f(최하단) 이하로 플레이어가 낙하시 플레이어 오브젝트 파괴 및 씬 다시 불러오기
-        if(transform.position.y < -4.5f)
+        if (transform.position.y < -4.5f)
         {
             Destroy(gameObject);
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
-
-            //SceneManager.LoadScene("GameScene");
-            //GameManager.Instance.f_RestartGame(); //게임 재시작
-            sSceneName = GameManager.Instance.f_GetSceneName();
+            
+            sSceneName = GameManager.Instance.f_GetSceneName(); //씬 네임 불러오기
 
             GameManager.Instance.f_OpenScene(sSceneName);
         }
@@ -319,7 +338,7 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.f_OpenTitle(); //임시
         
     }*/
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         string sSceneName = null;
@@ -340,11 +359,11 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("on!!");
             Debug.Log(gStageClear.activeSelf);*/
 
-            if(sSceneName == "ThirdStage")
+            if (sSceneName == "ThirdStage")
             {
                 GameManager.Instance.f_OpenClearGame();
             }
-            
+
         }
 
         //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
@@ -356,7 +375,7 @@ public class PlayerController : MonoBehaviour
         //GameManager.Instance.f_OpenTitle(); //임시
 
     }
-    
+
 
     /*
      * Cloud Tag를 인식하여 isPlayerOnCloud를 참, 거짓 값을 변동하도록 해보았으나, 간헐적으로 충돌을 감지하지 못하는 상황이 발생
@@ -376,6 +395,7 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("플레이어가 착지함");
             isPlayerOnCloud = true; //플레이어 착지 참
+            m_animatorWizard.SetBool("isJump", false); //점프 애니메이션 비활성화
 
             /*
              * 플레이어가 구름에 충돌한 경우 충돌한 오브젝트에 FallingCloud 스크립트가 존재하는가?
@@ -403,5 +423,5 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    
+
 }
