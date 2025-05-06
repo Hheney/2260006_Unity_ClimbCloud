@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2084119205}
   - component: {fileID: 2084119204}
   m_Layer: 0
-  m_Name: ClearDirector
+  m_Name: ClearSceneController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
