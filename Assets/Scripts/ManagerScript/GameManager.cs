@@ -4,8 +4,20 @@
  * 또한 객체지향의 5원칙중 하나인 단일 책임 원칙(Single Responsibility Principle)을 준수하기 위함
  */
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement; //씬을 전환하기 위한 씬매니저 임포트
+
+
+//씬 이름을 직접입력하는 문자열 하드코딩을 줄여 씬 호출 오류방지를 위해 enum 사용
+public enum SceneName
+{
+    TitleScene, //타이틀 씬
+    FirstStage, //스테이지1 씬
+    GameScene,  //스테이지2 씬
+    ThirdStage, //스테이지3 씬
+    ClearScene  //클리어 씬
+}
 
 /// <summary> 게임 전역에서 게임의 전반을 관리하는 매니저 클래스 </summary>
 public class GameManager : MonoBehaviour
@@ -69,58 +81,39 @@ public class GameManager : MonoBehaviour
      * 마우스가 클릭된 것을 감지하면, SceneManger 클래스의 LoadScene 메소드를 사용해 게임 씬으로 전환
      */
 
-    //여러 스크립트에서 다중 사용이 예상되어 GameManger에서 메소드화
-
-    /// <summary> 타이틀 화면으로 이동하는 메소드 </summary>
-    public void f_OpenTitle() //타이틀 화면
-    {
-        SceneManager.LoadScene("TitleScene");
-    }
-
-    /// <summary> 2번째 스테이지씬으로 이동하는 메소드 </summary>
-    public void f_GameStart() //게임 시작
-    {
-        SceneManager.LoadScene("GameScene");
-    }
-
-    /// <summary> 메인 메뉴씬으로 이동하는 메소드 </summary>
-    public void f_OpenMainMenu()
-    {
-        //SceneManager.LoadScene("");
-    }
-
     /// <summary> 매개변수로 받은 씬으로 이동하는 메소드 </summary>
-    public void f_OpenScene(string SceneName)
+    public void f_OpenScene(SceneName sceneName)
     {
-        SceneManager.LoadScene(SceneName);
+        //SceneManager.LoadScene(SceneName);
+        SceneManager.LoadScene(sceneName.ToString());
     }
 
-    /// <summary> 스테이지를 선택할 수 있는 씬으로 이동하는 메소드 </summary>
-    public void f_OpenStageSelect()
+    /*
+     * GetActiveScene()은 현재 씬 이름을 문자열로 반환한다.
+     * 그러나 씬 명칭 입력을 enum을 사용할 예정이므로,
+     * 씬 이름을 enum으로 매핑해주는 메소드를 생성함
+     */
+
+    /// <summary> 현재 씬 명칭을 Enum과 매핑하는 메소드 </summary>
+    public SceneName f_GetCurrentSceneEnum()
     {
-        //SceneManager.LoadScene("");
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        //활성화된 string 타입 씬 이름을 enum에 정의된 이름일 경우 현재 씬 반환
+        if (System.Enum.TryParse(sceneName, out SceneName currentScene))
+        {
+            return currentScene;
+        }
+        else
+        {
+            Debug.LogWarning($"씬 {sceneName}이 SceneName Enum에 존재하지 않습니다.");
+        }
+
+        return SceneName.TitleScene; //예외 사항이 발생시 타이틀화면으로 이동
     }
 
-    /// <summary> 게임오버씬으로 이동하는 메소드 </summary>
-    public void f_GameOver()
-    {
-        //SceneManager.LoadScene("");
-    }
-
-    /// <summary> 게임을 재시작하는 메소드 </summary>
-    public void f_RestartGame() //게임 재시작
-    {
-        SceneManager.LoadScene("TitleScene");
-    }
-
-    public void f_OpenClearGame() //게임 클리어 전환
-    {
-        SceneManager.LoadScene("ClearScene");
-    }
-
-    //활성화된 씬 이름을 불러와서 씬에 맞는 BGM 재생을 자동화 하기위함
     /// <summary> 활성화된 씬 네임을 불러오는 메소드 </summary>
-    public string f_GetSceneName()
+    public string f_GetSceneName() //활성화된 씬 이름을 불러와서 씬에 맞는 BGM 재생을 자동화 하기위함
     {
         string sSceneName = null;
 
@@ -128,4 +121,5 @@ public class GameManager : MonoBehaviour
 
         return sSceneName;
     }
+
 }

@@ -19,7 +19,7 @@ public class ThirdStageController : MonoBehaviour
 
     public void f_ContinueButton()
     {
-        GameManager.Instance.f_OpenScene("ClearScene"); //클리어씬으로 이동
+        GameManager.Instance.f_OpenScene(SceneName.ClearScene); //클리어씬으로 이동
     }
 
 

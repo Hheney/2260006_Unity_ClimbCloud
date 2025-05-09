@@ -286,17 +286,13 @@ public class PlayerControllerWizard : MonoBehaviour
 
     void f_PlayerFallingGround()
     {
-        string sSceneName = null;
-
         //-4.5f(최하단) 이하로 플레이어가 낙하시 플레이어 오브젝트 파괴 및 씬 다시 불러오기
         if (transform.position.y < -4.5f)
         {
             Destroy(gameObject);
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
-            
-            sSceneName = GameManager.Instance.f_GetSceneName(); //씬 네임 불러오기
-
-            GameManager.Instance.f_OpenScene(sSceneName);
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum(); //현재씬 불러오기
+            GameManager.Instance.f_OpenScene(currentScene); //매개변수 씬 로드
         }
     }
 
@@ -305,75 +301,34 @@ public class PlayerControllerWizard : MonoBehaviour
      * 이 경우 게임씬에서 클리어 씬으로 전환되어야 함
      * 플레이어가 깃발에 닿았는지는 OnTriggerEnter2D 메소드로 감지함
      */
-    private void f_ReturnToTitle()
-    {
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
-        //GameManager.Instance.f_OpenTitle(); //임시
-    }
-
-    /*
-     * 플레이어가 깃발에 닿으면 게임이 종료됨
-     * 이 경우 게임씬에서 클리어 씬으로 전환되어야 함
-     * 플레이어가 깃발에 닿았는지는 OnTriggerEnter2D 메소드로 감지함
-     *
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //개선점 : 클리어 부분에서 BGM, SFX를 따로 재생 / 효과음을 재생하고 이동함
-        if (collision.gameObject.CompareTag("Flag")) //깃발 태그 감지
-        {
-            Debug.Log("클리어!");
-            SoundManager.Instance.f_StopAllBGM();
-            SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.5f); //클리어 효과음 재생
-            Invoke("ReturnToTitle", 2.0f); //효과음 재생 후 2초 뒤 타이틀로 이동
-        }
-
-        /*
-        Debug.Log("클리어!");
-        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
-
-        //SceneManager.LoadScene("ClearScene");
-        //GameManager.Instance.f_OpenClearGame();
-        SoundManager.Instance.f_StopAllBGM();
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
-        GameManager.Instance.f_OpenTitle(); //임시
-        
-    }*/
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        string sSceneName = null;
+        //string sSceneName = null;
 
         Debug.Log("클리어!");
-
 
         if (collision.CompareTag("Flag"))
         {
+            /*
             sSceneName = GameManager.Instance.f_GetSceneName();
-
-            //NextSceneManager.f_NextScene(gStageClear, true, true, "TitleScene");
-
-            gStageClear.SetActive(true); // 깃발에 닿으면 켜기
-            Debug.Log("닿았다");
-            gPlayer.SetActive(false);
-            /*if (gStageClear == true)
-                Debug.Log("on!!");
-            Debug.Log(gStageClear.activeSelf);*/
-
             if (sSceneName == "ThirdStage")
             {
                 GameManager.Instance.f_OpenClearGame();
             }
+            */
 
+            gStageClear.SetActive(true);    //깃발에 닿으면 켜기
+            gPlayer.SetActive(false);       //플레이어 끄기       
+
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum(); //현재씬 불러오기
+            
+            if(currentScene == SceneName.ThirdStage) //현재 씬이 스테이지3일 경우
+            {
+                GameManager.Instance.f_OpenScene(SceneName.ClearScene); //클리어 씬 호출
+            }
         }
-
-        //SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameClear, 0.1f); //게임 클리어 효과음 10% 볼륨으로 재생
-
-        //SceneManager.LoadScene("ClearScene");
-        //GameManager.Instance.f_OpenClearGame();
-        SoundManager.Instance.f_StopAllBGM();
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
-        //GameManager.Instance.f_OpenTitle(); //임시
-
+        //SoundManager.Instance.f_StopAllBGM();
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
     }
 
 
@@ -421,7 +376,5 @@ public class PlayerControllerWizard : MonoBehaviour
             isPlayerOnCloud = false; //플레이어 착지 거짓
         }
     }
-
-
 
 }

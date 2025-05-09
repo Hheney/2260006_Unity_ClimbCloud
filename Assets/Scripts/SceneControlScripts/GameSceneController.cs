@@ -19,7 +19,7 @@ public class GameSceneController : MonoBehaviour
 
     public void f_ContinueButton()
     {
-        GameManager.Instance.f_OpenScene("ThirdStage");//3스테이지 이동
+        GameManager.Instance.f_OpenScene(SceneName.ThirdStage); //3스테이지 이동
     }
 
 

@@ -4,7 +4,6 @@
 
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEditor; //EditorApplication 사용을 위해 임포트
 
 public class TitleSceneContorller : MonoBehaviour
@@ -44,17 +43,14 @@ public class TitleSceneContorller : MonoBehaviour
 
     public void GameStartDown() //게임 시작 버튼
     {
-        SoundManager.Instance.f_PlaySFX(SoundName.SFX_ButtonClick, 0.7f);
-        SceneManager.LoadScene("FirstStage");   //1스테이지로 이동
-        
-        //SoundManager.Instance.f_StopAllBGM();    //사운드 정지
-        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_StageBGM1, 0.1f); //1스테이지 사운드 재생
+        SoundManager.Instance.f_PlaySFX(SoundName.SFX_ButtonClick, 0.7f); 
+        GameManager.Instance.f_OpenScene(SceneName.FirstStage); //스테이지1 씬 로드
     }
 
     public void QuitDown()  //종료 버튼
     {
         SoundManager.Instance.f_PlaySFX(SoundName.SFX_ButtonClick, 0.7f);
-        //Application.Quit(); //App 종료
+        
         //에디터 종료(에디터 상에서 프로그램이 실행되기 때문에 에디터 실행을 종료)
         UnityEditor.EditorApplication.isPlaying = false; 
     }
