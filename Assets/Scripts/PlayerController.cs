@@ -265,19 +265,13 @@ public class PlayerController : MonoBehaviour
 
     void f_PlayerFallingGround()
     {
-        string sSceneName = null;
-
         //-4.5f(최하단) 이하로 플레이어가 낙하시 플레이어 오브젝트 파괴 및 씬 다시 불러오기
         if(transform.position.y < -4.5f)
         {
             Destroy(gameObject);
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
-
-            //SceneManager.LoadScene("GameScene");
-            //GameManager.Instance.f_RestartGame(); //게임 재시작
-            sSceneName = GameManager.Instance.f_GetSceneName();
-
-            GameManager.Instance.f_OpenScene(sSceneName);
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum();
+            GameManager.Instance.f_OpenScene(currentScene);
         }
     }
 
@@ -342,7 +336,7 @@ public class PlayerController : MonoBehaviour
 
             if(sSceneName == "ThirdStage")
             {
-                GameManager.Instance.f_OpenClearGame();
+                //GameManager.Instance.f_OpenClearGame();
             }
             
         }

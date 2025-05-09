@@ -12,13 +12,12 @@ public class FirstStageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GameManager.Instance.f_OpenScene("GameScene");
+
     }
 
-    public void f_ContinueButton()  //2스테이지 이동
+    public void f_ContinueButton()
     {
-        GameManager.Instance.f_OpenScene("GameScene");
+        GameManager.Instance.f_OpenScene(SceneName.GameScene); //스테이지2(GameScene)으로 이동
     }
-
 
 }

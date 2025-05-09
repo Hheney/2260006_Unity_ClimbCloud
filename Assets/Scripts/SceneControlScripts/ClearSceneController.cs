@@ -25,7 +25,8 @@ public class ClearSceneController : MonoBehaviour
          */
         if (Input.GetMouseButtonDown(0))
         {
-            GameManager.Instance.f_RestartGame();
+            //GameManager.Instance.f_RestartGame();
+            GameManager.Instance.f_OpenScene(SceneName.TitleScene);
         }
     }
 
