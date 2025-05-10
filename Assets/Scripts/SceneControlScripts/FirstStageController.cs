@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FirstStageController : MonoBehaviour
+public class FirstStageController : BaseStageController
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,9 +15,11 @@ public class FirstStageController : MonoBehaviour
 
     }
 
+    /*
     public void f_ContinueButton()
     {
         GameManager.Instance.f_OpenScene(SceneName.GameScene); //스테이지2(GameScene)으로 이동
     }
+    */
 
 }

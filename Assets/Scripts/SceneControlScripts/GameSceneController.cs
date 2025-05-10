@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameSceneController : MonoBehaviour
+public class GameSceneController : BaseStageController
 {
 
 
@@ -16,11 +16,12 @@ public class GameSceneController : MonoBehaviour
     {
         
     }
-
+    
+    /*
     public void f_ContinueButton()
     {
         GameManager.Instance.f_OpenScene(SceneName.ThirdStage); //3스테이지 이동
     }
-
+    */
 
 }
