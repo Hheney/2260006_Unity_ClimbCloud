@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ThirdStageController : MonoBehaviour
+public class ThirdStageController : BaseStageController
 {
 
 
@@ -17,10 +17,11 @@ public class ThirdStageController : MonoBehaviour
 
     }
 
+    /*
     public void f_ContinueButton()
     {
         GameManager.Instance.f_OpenScene(SceneName.ClearScene); //클리어씬으로 이동
     }
-
+    */
 
 }
