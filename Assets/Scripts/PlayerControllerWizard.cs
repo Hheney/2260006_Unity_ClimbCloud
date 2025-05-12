@@ -291,7 +291,7 @@ public class PlayerControllerWizard : MonoBehaviour
         {
             Destroy(gameObject);
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
-            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum(); //현재씬 불러오기
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneName(); //현재씬 불러오기
             GameManager.Instance.f_OpenScene(currentScene); //매개변수 씬 로드
         }
     }
@@ -320,7 +320,7 @@ public class PlayerControllerWizard : MonoBehaviour
             gStageClear.SetActive(true);    //깃발에 닿으면 켜기
             gPlayer.SetActive(false);       //플레이어 끄기       
 
-            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum(); //현재씬 불러오기
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneName(); //현재씬 불러오기
             
             if(currentScene == SceneName.ThirdStage) //현재 씬이 스테이지3일 경우
             {

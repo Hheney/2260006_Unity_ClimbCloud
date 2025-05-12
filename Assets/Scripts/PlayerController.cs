@@ -270,7 +270,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
             SoundManager.Instance.f_PlaySFX(SoundName.SFX_GameOver, 0.5f); //게임 오버 효과음 10% 볼륨으로 재생
-            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneEnum();
+            SceneName currentScene = GameManager.Instance.f_GetCurrentSceneName();
             GameManager.Instance.f_OpenScene(currentScene);
         }
     }
@@ -282,7 +282,7 @@ public class PlayerController : MonoBehaviour
      */
     private void f_ReturnToTitle()
     {
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
         //GameManager.Instance.f_OpenTitle(); //임시
     }
 
@@ -346,7 +346,7 @@ public class PlayerController : MonoBehaviour
         //SceneManager.LoadScene("ClearScene");
         //GameManager.Instance.f_OpenClearGame();
         SoundManager.Instance.f_StopAllBGM();
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.1f);
         //GameManager.Instance.f_OpenTitle(); //임시
 
     }

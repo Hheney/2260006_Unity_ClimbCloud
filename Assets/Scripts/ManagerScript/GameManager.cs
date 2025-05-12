@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
          */
         Application.targetFrameRate = 60;
 
-        SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.2f);
+        //SoundManager.Instance.f_PlayBGM(SoundName.BGM_Title, 0.2f);
     }
 
     // Update is called once per frame
@@ -94,8 +94,8 @@ public class GameManager : MonoBehaviour
      * 씬 이름을 enum으로 매핑해주는 메소드를 생성함
      */
 
-    /// <summary> 현재 씬 명칭을 Enum과 매핑하는 메소드 </summary>
-    public SceneName f_GetCurrentSceneEnum()
+    /// <summary> 현재 씬 명칭을 정의된 Enum과 매핑하는 메소드 </summary>
+    public SceneName f_GetCurrentSceneName()
     {
         string sceneName = SceneManager.GetActiveScene().name;
 

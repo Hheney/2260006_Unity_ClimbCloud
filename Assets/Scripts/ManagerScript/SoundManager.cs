@@ -37,9 +37,9 @@ public enum SoundName
     //배경음악
     BGM_Title,      //타이틀 배경음악
     BGM_MainMenu,   //메인메뉴 배경음악
-    BGM_StageBGM1,  //스테이지1 배경음악
-    BGM_StageBGM2,  //스테이지2 배경음악
-    BGM_StageBGM3,  //스테이지3 배경음악
+    BGM_Stage1,  //스테이지1 배경음악
+    BGM_Stage2,  //스테이지2 배경음악
+    BGM_Stage3,  //스테이지3 배경음악
 
     //효과음
     SFX_GameOver,   //게임 오버 효과음
@@ -76,20 +76,20 @@ public class AudioUnit
 public class SoundManager : MonoBehaviour
 {
     /// <summary> 씬 이름(Key)과 SoundName(Value)을 1:1 매핑하는 딕셔너리 </summary>
-    private Dictionary<string, SoundName> dBGMMap = new Dictionary<string, SoundName>()
+    private Dictionary<string, SoundName> BGMDict = new Dictionary<string, SoundName>()
     {
         //씬 네임(Key)은 String, 사운드 명칭(Value)은 열거형으로 작성되어 int형이므로 딕셔너리를 사용해 1:1 매핑함
         {"TitleScene", SoundName.BGM_Title },
         {"MainMenuScene", SoundName.BGM_MainMenu},
-        {"FirstStage", SoundName.BGM_StageBGM1},
-        {"GameScene", SoundName.BGM_StageBGM2 },
-        {"ThirdStage", SoundName.BGM_StageBGM3 }, 
+        {"FirstStage", SoundName.BGM_Stage1},
+        {"GameScene", SoundName.BGM_Stage2 },
+        {"ThirdStage", SoundName.BGM_Stage3 }, 
         {"ClearScene", SoundName.BGM_MainMenu}      //클리어씬 BGM이 누락되어 임시로 MainMenu BGM 매핑
     };
 
     [Header("Audio Units")] //Inspector에서 리스트를 구분하기 위해 머릿말("Audio Units") 추가
-    [SerializeField] private List<AudioUnit> UnitBGM = new List<AudioUnit>(); //BGM 전용 AudioUnit 리스트
-    [SerializeField] private List<AudioUnit> UnitSFX = new List<AudioUnit>(); //SFX 전용 AudioUnit 리스트
+    [SerializeField] private List<AudioUnit> ListUnitBGM = new List<AudioUnit>(); //BGM 전용 AudioUnit 리스트
+    [SerializeField] private List<AudioUnit> ListUnitSFX = new List<AudioUnit>(); //SFX 전용 AudioUnit 리스트
 
     // singleton pattern: 클래스 하나에 인스턴스가 하나만 생성되는 프래그래밍 패턴
     private static SoundManager _instance = null;
@@ -152,7 +152,7 @@ public class SoundManager : MonoBehaviour
         SoundName soundName; //딕셔너리에서 일치하는 매핑된 사운드 지역변수 선언
         string sSceneName = GameManager.Instance.f_GetSceneName(); //씬 이름 변수에 활성화된 씬 이름 저장
 
-        if(dBGMMap.TryGetValue(sSceneName, out soundName))
+        if(BGMDict.TryGetValue(sSceneName, out soundName))
         {
             f_PlayBGM(soundName, 0.1f); //매핑된 배경음악 10% 볼륨으로 재생
         }
@@ -163,10 +163,10 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary> 매개변수로 전달받은 배경음악을 재생하는 메소드 </summary>
-    public void f_PlayBGM(SoundName soundName, float volume)
+    private void f_PlayBGM(SoundName soundName, float volume)
     {
         //사용된 오디오 갯수만큼 반복한다면 자동화된 검색가능 
-        foreach(AudioUnit unit in UnitBGM) //var대신 명확성을 위해 AudioUnit unit형태로 지정함
+        foreach(AudioUnit unit in ListUnitBGM) //var대신 명확성을 위해 AudioUnit unit형태로 지정함
         {
             if(unit.SoundName == soundName) //매개변수 사운드를 찾으면?
             {
@@ -183,7 +183,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> 매개변수로 전달받은 효과음을 재생하는 메소드 </summary>
     public void f_PlaySFX(SoundName soundName, float volume)
     {
-        foreach(AudioUnit unit in UnitSFX)
+        foreach(AudioUnit unit in ListUnitSFX)
         {
             if(unit.SoundName == soundName)
             {
@@ -198,7 +198,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> 매개변수로 전달받은 BGM을 재생 중지하는 메소드 </summary>
     public void f_StopBGM(SoundName soundName)
     {
-        foreach(AudioUnit unit in UnitBGM)
+        foreach(AudioUnit unit in ListUnitBGM)
         {
             if(unit.SoundName == soundName && unit.AudioSource.isPlaying) //재생중인 사운드 명칭 == 매개변수 사운드 명칭 and 사운드가 재생중
             {
@@ -211,7 +211,7 @@ public class SoundManager : MonoBehaviour
     /// <summary> 모든 BGM을 재생 중지하는 메소드 </summary>
     public void f_StopAllBGM()
     {
-        foreach(AudioUnit unit in UnitBGM)
+        foreach(AudioUnit unit in ListUnitBGM)
         {
             if(unit.AudioSource.isPlaying)
             {
